@@ -2,11 +2,11 @@
 @section('content')
     <section class="content-header">
         <h1>
-            Danh sách danh mục
+            Danh sách sản phẩm
         </h1>
         <ol class="breadcrumb">
             <li><a href="/"><i class="fa fa-dashboard"></i>Dashboard</a></li>
-            <li><a href="{{ route('category') }}"></a>Danh mục</li>
+            <li><a href="{{ route('category') }}"></a>Sản phẩm</li>
         </ol>
     </section>
     <!-- Main content -->
