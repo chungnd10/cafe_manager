@@ -2,193 +2,288 @@
 @section('content')
     <section class="content-header">
         <h1>
-            Danh sách danh mục
+            Danh mục
         </h1>
         <ol class="breadcrumb">
-            <li><a href="/"><i class="fa fa-dashboard"></i>Dashboard</a></li>
-            <li><a href="{{ route('category') }}"></a>Danh mục</li>
+            <li>
+                <button type="button" class="btn btn-success btn-sm"
+                        data-toggle="modal"
+                        data-target="#form-modal"
+                        id="create_record"
+                        name="create_record"
+                >
+                    <i class="fa fa-plus"></i>&nbsp;&nbsp;Thêm
+                </button>
+                <div class="modal fade" id="form_modal">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">×</span></button>
+                                <h4 class="modal-title">Thêm danh mục</h4>
+                            </div>
+                            <div class="modal-body">
+                                <span id="form_result"></span>
+                                <form action="#" id="category_form" method="post">
+                                    @csrf
+                                    <div class="form-group">
+                                        <label class="form-label">Tên danh mục:</label>
+                                        <span class="text-danger">*</span>
+                                        <input type="text" class="form-control" name="name" id="name">
+                                        <span class="text-danger" id="name_erros"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <button type="button"
+                                                class="btn btn-danger"
+                                                data-dismiss="modal">
+                                            <i class="fa fa-close"></i>&nbsp;&nbsp;Hủy
+                                        </button>
+                                        <input type="hidden" name="action" id="action" />
+                                        <input type="hidden" name="hidden_id" id="hidden_id" />
+                                        <input type="submit" name="action_button" id="action_button" class="btn btn-warning" value="Thêm" />
+                                    </div>
+                                </form>
+                            </div>
+                        </div><!-- /.modal-content -->
+                    </div><!-- /.modal-dialog -->
+                </div>
+                <div id="confirm_modal" class="modal fade" role="dialog">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h2 class="modal-title">Xác nhận</h2>
+                            </div>
+                            <div class="modal-body">
+                                <p>
+                                    Bạn có chắc chắn muốn xóa dữ liệu này không?<br>
+                                    Tất cả sản phẩm thuộc danh mục này cũng sẽ bị xóa!
+                                </p>
+                            </div>
+                            <div class="modal-footer ">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">
+                                    <i class="fa fa-close"></i>&nbsp;
+                                    Hủy
+                                </button>
+                                <button type="button" name="ok_button" id="ok_button" class="btn btn-danger">
+                                    <i class="fa fa-trash"></i>
+                                    Xóa
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </li>
         </ol>
     </section>
     <!-- Main content -->
     <section class="content">
         <div class="box">
-            <div class="box-header">
-                <h3 class="box-title">Data Table With Full Features</h3>
-            </div>
             <!-- /.box-header -->
             <div class="box-body">
-                <div id="example1_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <div class="dataTables_length" id="example1_length"><label>Show <select
-                                            name="example1_length" aria-controls="example1"
-                                            class="form-control input-sm">
-                                        <option value="10">10</option>
-                                        <option value="25">25</option>
-                                        <option value="50">50</option>
-                                        <option value="100">100</option>
-                                    </select> entries</label></div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div id="example1_filter" class="dataTables_filter"><label>Search:<input type="search"
-                                                                                                     class="form-control input-sm"
-                                                                                                     placeholder=""
-                                                                                                     aria-controls="example1"></label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <table id="example1" class="table table-bordered table-striped dataTable" role="grid"
-                                   aria-describedby="example1_info">
-                                <thead>
-                                <tr role="row">
-                                    <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1"
-                                        colspan="1" aria-sort="ascending"
-                                        aria-label="Rendering engine: activate to sort column descending"
-                                        style="width: 136px;">Rendering engine
-                                    </th>
-                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1"
-                                        aria-label="Browser: activate to sort column ascending" style="width: 170px;">
-                                        Browser
-                                    </th>
-                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1"
-                                        aria-label="Platform(s): activate to sort column ascending"
-                                        style="width: 149px;">Platform(s)
-                                    </th>
-                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1"
-                                        aria-label="Engine version: activate to sort column ascending"
-                                        style="width: 115px;">Engine version
-                                    </th>
-                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1"
-                                        aria-label="CSS grade: activate to sort column ascending" style="width: 82px;">
-                                        CSS grade
-                                    </th>
-                                </tr>
-                                </thead>
-                                <tbody>
-
-
-                                <tr role="row" class="odd">
-                                    <td class="sorting_1">Gecko</td>
-                                    <td>Firefox 1.0</td>
-                                    <td>Win 98+ / OSX.2+</td>
-                                    <td>1.7</td>
-                                    <td>A</td>
-                                </tr>
-                                <tr role="row" class="even">
-                                    <td class="sorting_1">Gecko</td>
-                                    <td>Firefox 1.5</td>
-                                    <td>Win 98+ / OSX.2+</td>
-                                    <td>1.8</td>
-                                    <td>A</td>
-                                </tr>
-                                <tr role="row" class="odd">
-                                    <td class="sorting_1">Gecko</td>
-                                    <td>Firefox 2.0</td>
-                                    <td>Win 98+ / OSX.2+</td>
-                                    <td>1.8</td>
-                                    <td>A</td>
-                                </tr>
-                                <tr role="row" class="even">
-                                    <td class="sorting_1">Gecko</td>
-                                    <td>Firefox 3.0</td>
-                                    <td>Win 2k+ / OSX.3+</td>
-                                    <td>1.9</td>
-                                    <td>A</td>
-                                </tr>
-                                <tr role="row" class="odd">
-                                    <td class="sorting_1">Gecko</td>
-                                    <td>Camino 1.0</td>
-                                    <td>OSX.2+</td>
-                                    <td>1.8</td>
-                                    <td>A</td>
-                                </tr>
-                                <tr role="row" class="even">
-                                    <td class="sorting_1">Gecko</td>
-                                    <td>Camino 1.5</td>
-                                    <td>OSX.3+</td>
-                                    <td>1.8</td>
-                                    <td>A</td>
-                                </tr>
-                                <tr role="row" class="odd">
-                                    <td class="sorting_1">Gecko</td>
-                                    <td>Netscape 7.2</td>
-                                    <td>Win 95+ / Mac OS 8.6-9.2</td>
-                                    <td>1.7</td>
-                                    <td>A</td>
-                                </tr>
-                                <tr role="row" class="even">
-                                    <td class="sorting_1">Gecko</td>
-                                    <td>Netscape Browser 8</td>
-                                    <td>Win 98SE+</td>
-                                    <td>1.7</td>
-                                    <td>A</td>
-                                </tr>
-                                <tr role="row" class="odd">
-                                    <td class="sorting_1">Gecko</td>
-                                    <td>Netscape Navigator 9</td>
-                                    <td>Win 98+ / OSX.2+</td>
-                                    <td>1.8</td>
-                                    <td>A</td>
-                                </tr>
-                                <tr role="row" class="even">
-                                    <td class="sorting_1">Gecko</td>
-                                    <td>Mozilla 1.0</td>
-                                    <td>Win 95+ / OSX.1+</td>
-                                    <td>1</td>
-                                    <td>A</td>
-                                </tr>
-                                </tbody>
-                                <tfoot>
-                                <tr>
-                                    <th rowspan="1" colspan="1">Rendering engine</th>
-                                    <th rowspan="1" colspan="1">Browser</th>
-                                    <th rowspan="1" colspan="1">Platform(s)</th>
-                                    <th rowspan="1" colspan="1">Engine version</th>
-                                    <th rowspan="1" colspan="1">CSS grade</th>
-                                </tr>
-                                </tfoot>
-                            </table>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-5">
-                            <div class="dataTables_info" id="example1_info" role="status" aria-live="polite">Showing 1
-                                to 10 of 57 entries
-                            </div>
-                        </div>
-                        <div class="col-sm-7">
-                            <div class="dataTables_paginate paging_simple_numbers" id="example1_paginate">
-                                <ul class="pagination">
-                                    <li class="paginate_button previous disabled" id="example1_previous"><a href="#"
-                                                                                                            aria-controls="example1"
-                                                                                                            data-dt-idx="0"
-                                                                                                            tabindex="0">Previous</a>
-                                    </li>
-                                    <li class="paginate_button active"><a href="#" aria-controls="example1"
-                                                                          data-dt-idx="1" tabindex="0">1</a></li>
-                                    <li class="paginate_button "><a href="#" aria-controls="example1" data-dt-idx="2"
-                                                                    tabindex="0">2</a></li>
-                                    <li class="paginate_button "><a href="#" aria-controls="example1" data-dt-idx="3"
-                                                                    tabindex="0">3</a></li>
-                                    <li class="paginate_button "><a href="#" aria-controls="example1" data-dt-idx="4"
-                                                                    tabindex="0">4</a></li>
-                                    <li class="paginate_button "><a href="#" aria-controls="example1" data-dt-idx="5"
-                                                                    tabindex="0">5</a></li>
-                                    <li class="paginate_button "><a href="#" aria-controls="example1" data-dt-idx="6"
-                                                                    tabindex="0">6</a></li>
-                                    <li class="paginate_button next" id="example1_next"><a href="#"
-                                                                                           aria-controls="example1"
-                                                                                           data-dt-idx="7" tabindex="0">Next</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <table id="category-table"
+                               class="table table-bordered dataTable"
+                               role="grid"
+                               aria-describedby="example1_info">
+                            <thead>
+                            <tr role="row">
+                                <th width="10%">ID</th>
+                                <th>Tên</th>
+                                <th width="20%">Hành động</th>
+                            </tr>
+                            </thead>
+                        </table>
                     </div>
                 </div>
             </div>
             <!-- /.box-body -->
         </div>
     </section>
+@endsection
+@section('script')
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            // START: config datatable
+            var category_table = $('#category-table');
+
+            category_table.DataTable({
+                "language": {
+                    url: "{{ asset('admin_assets/bower_components/datatables.net-bs/lang/vietnamese-lang.json') }}"
+                },
+                "processing": true,
+                "serverSide": true,
+                ajax: {
+                    url: "{{ route('categories.index') }}",
+                },
+                columns: [
+                    {
+                        data: 'id',
+                        name: 'id',
+                    },
+                    {
+                        data: 'name',
+                        name: 'name',
+                    },
+                    {
+                        data: 'action',
+                        name: 'action',
+                        orderable: false
+                    }
+
+                ]
+            });
+            // END: config datatable
+
+            var category_form = $("#category_form");
+            //START: validate form
+            // category_form.validate({
+            //     rules: {
+            //         name: {
+            //             required: true
+            //         }
+            //     }
+            // });
+            //END: validate form
+
+            // START: create category new
+            var form_result = $("#form_result");
+
+            category_form.on('submit', function (event) {
+                event.preventDefault();
+
+                var action = $("#action").val();
+
+                // if click add category
+                if (action === "Thêm") {
+                    $.ajax({
+                        url: "{{ route('categories.store') }}",
+                        method: "POST",
+                        data: new FormData(this),
+                        processData: false,
+                        contentType: false,
+                        cache: false,
+                        dataType: "json",
+                        success: function (data) {
+                            var html = "";
+                            if (data.errors) {
+                                html = " <div class='alert alert-danger'></div>";
+                                for (let i = 0; i < data.errors.length; i++) {
+                                    html += "<p>" + data.errors[i] + "</p>";
+                                }
+                                html += "</div>"
+                            }
+
+                            if (data.success) {
+                                html = " <div class='alert alert-success'>" + data.success + "</div>"
+                                category_form[0].reset();
+                                category_table.DataTable().ajax.reload();
+                            }
+
+                            form_result.html(html);
+                        }
+                    })
+                }
+
+                // START: if click update category
+                if (action === "Cập nhật"){
+                    $.ajax({
+                        url: "{{ route('categories.update') }}",
+                        method: "POST",
+                        data: new FormData(this),
+                        processData: false,
+                        contentType: false,
+                        cache: false,
+                        dataType: "json",
+                        success: function (data) {
+                            console.log(data);
+                            if (data.errors) {
+                                $('#name_errors').text(data.errors.name);
+                                console.log(data);
+                            }
+                            if (data.success) {
+                                html = '<div class="alert alert-success">' + data.success + '</div>';
+                                category_form[0].reset();
+                                category_table.DataTable().ajax.reload();
+                            }
+                            form_result.html(html);
+                        },
+                        failed(){
+                            console.log(data);
+                        }
+                    });
+                }
+                // END: if click update category
+            });
+            // END: create category new
+
+            var modal_title = $('.modal-title');
+            var action = $('#action');
+            var action_button = $('#action_button');
+            var form_modal = $('#form_modal');
+
+            // START: while click button create
+            var create_buton = $('#create_record');
+            create_buton.click(function () {
+                modal_title.text('Thêm danh mục');
+                action_button.val('Thêm');
+                action.val('Thêm');
+                form_modal.modal('show');
+            });
+            // END: while click button create
+
+            // START: show category for edit
+
+            var hidden_id = $("#hidden_id");
+
+            $(document).on('click', '.edit', function () {
+                var id = $(this).attr('id');
+                var name = $("#name");
+
+                form_result.html('');
+                $.ajax({
+                    url : "categories/" + id + "/edit",
+                    dataType: "json",
+                    success: function (html) {
+                        name.val(html.data.name);
+                        hidden_id.val(html.data.id);
+                        modal_title.text('Sửa danh mục');
+                        action.val('Cập nhật');
+                        action_button.val('Cập nhật');
+                        form_modal.modal('show');
+                    }
+                });
+            });
+            // END: show category for edit
+
+            // START: delete category
+            var user_id;
+            var confirm_modal = $('#confirm_modal');
+            var ok_button = $('#ok_button');
+
+            $(document).on('click', '.delete', function () {
+                user_id = $(this).attr('id');
+                $('#confirm_modal').modal('show');
+            });
+
+            ok_button.click(function () {
+                $.ajax({
+                    url: "categories/destroy/" + user_id,
+                    beforeSend: function () {
+                        ok_button.text('Đang xóa...');
+                    },
+                    success: function (data) {
+                        setTimeout(function () {
+                            confirm_modal.modal('hide');
+                            category_table.DataTable().ajax.reload();
+                            ok_button.text('Xóa');
+                        }, 1000);
+                    }
+                });
+            });
+            // END: delete category
+        });
+    </script>
 @endsection

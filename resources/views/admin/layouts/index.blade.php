@@ -17,7 +17,7 @@
 {{-- bottom_assets--}}
 @include('admin.layouts.bottom_assets')
 
-{{--@include('sweetalert::alert')--}}
+@include('sweetalert::alert')
 {{--page script--}}
 @yield('script')
 </body>

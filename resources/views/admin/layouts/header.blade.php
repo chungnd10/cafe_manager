@@ -11,49 +11,49 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
                 <ul class="nav navbar-nav">
-                    @can('view-category')
+                    @can('view-categories')
                         <li>
-                            <a href="{{ route('category') }}">
+                            <a href="{{ route('categories.index') }}">
                                 <i class="fa fa-newspaper-o"></i>
                                 Danh mục
                             </a>
                         </li>
                     @endcan
-                    @can('view-product')
+                    @can('view-products')
                         <li>
-                            <a href="{{ route('product') }}">
+                            <a href="{{ route('products.index') }}">
                                 <i class="fa fa-cubes"></i>
                                 Sản phẩm
                             </a>
                         </li>
                     @endcan
-                    @can('view-table')
+                    @can('view-tables')
                         <li>
-                            <a href="{{ route('table') }}">
+                            <a href="{{ route('tables.index') }}">
                                 <i class="fa fa-table"></i>
                                 Bàn
                             </a>
                         </li>
                     @endcan
-                    @can('view-order')
+                    @can('view-orders')
                         <li>
-                            <a href="{{ route('order') }}">
+                            <a href="{{ route('orders.index') }}">
                                 <i class="fa fa-bookmark-o"></i>
                                 Order
                             </a>
                         </li>
                     @endcan
-                    @can('view-bill')
+                    @can('view-bills')
                         <li>
-                            <a href="{{ route('bill') }}">
+                            <a href="{{ route('bills.index') }}">
                                 <i class="fa fa-money"></i>
                                 Hóa đơn
                             </a>
                         </li>
                     @endcan
-                    @can('view-user')
+                    @can('view-users')
                         <li>
-                            <a href="{{ route('user') }}">
+                            <a href="{{ route('users.index') }}">
                                 <i class="fa fa-users"></i>
                                 User
                             </a>
