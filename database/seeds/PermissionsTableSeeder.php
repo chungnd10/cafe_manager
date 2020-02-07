@@ -13,95 +13,95 @@ class PermissionsTableSeeder extends Seeder
     {
         $permissions = [
             [
-                'name' => 'view-table',
+                'name' => 'view-tables',
                 'title' => 'Xem bàn'
             ],
             [
-                'name' => 'create-table',
+                'name' => 'create-tables',
                 'title' => 'Thêm bàn'
             ],
             [
-                'name' => 'update-table',
+                'name' => 'update-tables',
                 'title' => 'Cập nhật bàn'
             ],
             [
-                'name' => 'delete-table',
+                'name' => 'delete-tables',
                 'title' => 'Xóa bàn'
             ],
             [
-                'name' => 'view-category',
+                'name' => 'view-categories',
                 'title' => 'Xem danh mục sản phẩm'
             ],
             [
-                'name' => 'create-category',
+                'name' => 'create-categories',
                 'title' => 'Thêm danh mục sản phẩm'
             ],
             [
-                'name' => 'update-category',
+                'name' => 'update-categories',
                 'title' => 'Cập nhật danh mục sản phẩm'
             ],
             [
-                'name' => 'delete-category',
+                'name' => 'delete-categories',
                 'title' => 'Xóa danh mục sản phẩm'
             ],
             [
-                'name' => 'view-product',
+                'name' => 'view-products',
                 'title' => 'Xem sản phẩm'
             ],
             [
-                'name' => 'create-product',
+                'name' => 'create-products',
                 'title' => 'Thêm sản phẩm'
             ],
             [
-                'name' => 'update-product',
+                'name' => 'update-products',
                 'title' => 'Cập nhật sản phẩm'
             ],
             [
-                'name' => 'delete-product',
+                'name' => 'delete-products',
                 'title' => 'Xóa sản phẩm'
             ],
             [
-                'name' => 'view-user',
+                'name' => 'view-users',
                 'title' => 'Xem người dùng'
             ],
             [
-                'name' => 'create-user',
+                'name' => 'create-users',
                 'title' => 'Thêm người dùng'
             ],
             [
-                'name' => 'update-user',
+                'name' => 'update-users',
                 'title' => 'Cập nhật người dùng'
             ],
             [
-                'name' => 'delete-user',
+                'name' => 'delete-users',
                 'title' => 'Xóa người dùng'
             ],
             [
-                'name' => 'view-order',
+                'name' => 'view-orders',
                 'title' => 'Xem order'
             ],
             [
-                'name' => 'create-order',
+                'name' => 'create-orders',
                 'title' => 'Thêm order'
             ],
             [
-                'name' => 'update-order',
+                'name' => 'update-orders',
                 'title' => 'Cập nhật order'
             ],
             [
-                'name' => 'delete-order',
+                'name' => 'delete-orders',
                 'title' => 'Xóa order'
             ],
             [
-                'name' => 'view-bill',
+                'name' => 'view-bills',
                 'title' => 'Xem hóa đơn'
             ],
             [
-                'name' => 'create-bill',
+                'name' => 'create-bills',
                 'title' => 'Thêm hóa đơn'
             ],
             [
-                'name' => 'update-bill',
+                'name' => 'update-bills',
                 'title' => 'Cập nhật hóa đơn'
             ]
         ];

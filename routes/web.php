@@ -14,43 +14,22 @@
 // auth
 Auth::routes(['register' => false]);
 
-Route::get('logout', 'Auth\LogoutController@logout')
-    ->name('logout');
+Route::get('logout', 'Auth\LogoutController@logout')->name('logout');
 
 Route::get('/', 'HomeController@index');
 
-Route::prefix('category')->group(function () {
-    Route::get('', 'CategoryController@index')
-        ->middleware('can:view-category')
-        ->name('category');
-});
+Route::resource('categories', 'CategoryController');
+Route::post('categories/update', 'CategoryController@update')->name('categories.update');
+Route::get('categories/destroy/{id}', 'CategoryController@destroy');
 
-Route::prefix('product')->group(function () {
-    Route::get('', 'ProductController@index')
-        ->middleware('can:view-product')
-        ->name('product');
-});
+Route::resource('products', 'ProductController');
 
-Route::prefix('table')->group(function () {
-    Route::get('', 'TableController@index')
-        ->middleware('can:view-table')
-        ->name('table');
-});
+Route::resource('tables', 'TableController');
 
-Route::prefix('order')->group(function () {
-    Route::get('', 'OrderController@index')
-        ->middleware('can:view-order')
-        ->name('order');
-});
+Route::resource('orders', 'OrderController');
 
-Route::prefix('bill')->group(function () {
-    Route::get('', 'BillController@index')
-        ->middleware('can:view-bill')
-        ->name('bill');
-});
+Route::resource('bills', 'BillController');
 
-Route::prefix('user')->group(function () {
-    Route::get('', 'UserController@index')
-        ->middleware('can:view-user')
-        ->name('user');
-});
+Route::resource('users', 'UserController');
+
+
