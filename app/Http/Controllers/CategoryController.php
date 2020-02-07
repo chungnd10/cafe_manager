@@ -3,12 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CategoryRequest;
-use App\Models\Category;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
+use App\Repositories\Category\CategoryRepository;
 
 class CategoryController extends Controller
 {
+    protected $categoryRepository;
+
+    public function __construct(CategoryRepository $categoryRepository)
+    {
+        $this->categoryRepository = $categoryRepository;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -16,29 +21,13 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $this->authorize('view-categories');
+        $this->authorize('view');
+
+        $categories = $this->categoryRepository->orderBy('id', 'desc');
 
         if (request()->ajax()) {
-            return datatables()->of(Category::latest()->get())
-                ->addColumn('action', function ($data) {
-                    $button = '<button type="button"
-                                        name="edit" 
-                                        id="' . $data->id. '" 
-                                        class="edit btn btn-warning btn-sm">
-                                   <i class="fa fa-pencil"></i>
-                                   &nbsp;&nbsp;Sửa
-                               </button>';
-                    $button .= '&nbsp;&nbsp;';
-                    $button .= '<button type="button" 
-                                    name="delete" 
-                                    id="' . $data->id . '" 
-                                    class="delete btn btn-danger btn-sm">
-                                    <i class="fa fa-trash"></i>
-                                    &nbsp;&nbsp;Xóa
-                                </button>';
-                    return $button;
-                })
-                ->rawColumns(['action'])
+            return datatables()->of($categories)
+                ->addColumn('action','admin.category.datatables.action')
                 ->make(true);
         }
         return view('admin.category.index');
@@ -48,33 +37,26 @@ class CategoryController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @param \App\Http\Requests\CategoryRequest $request
+     * @return mixed
      */
     public function store(CategoryRequest $request)
     {
-        $this->authorize('create-categories');
+        $this->authorize('create');
 
-        $category = [
-            'name' => $request->name
+        $form_data = [
+            'name' => $request->input('name')
         ];
 
-        Category::create($category);
+        $this->categoryRepository->create($form_data);
 
-        return response()->json(['success' => 'Data Added successfully.']);
+        $data = [
+            'success' => 'Thêm thành công.'
+        ];
+
+        return $data;
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-
-
-    }
 
     /**
      * Show the form for editing the specified resource.
@@ -84,8 +66,10 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        $this->authorize('update-categories');
-        $category = Category::findOrFail($id);
+        $this->authorize('update');
+
+        $category = $this->categoryRepository->find($id);
+
         return response()->json(['data' => $category]);
     }
 
@@ -94,20 +78,25 @@ class CategoryController extends Controller
      *
      * @param \Illuminate\Http\Request $request
      * @param int $id
-     * @return \Illuminate\Http\Response
+     * @return mixed
      */
     public function update(CategoryRequest $request)
     {
-        $this->authorize('update-categories');
+        $this->authorize('update');
 
-        $id = $request->hidden_id;
+        $id = $request->input('hidden_id');
 
         $form_data = [
-            "name" => $request->name
+            'name' => $request->input('name')
         ];
 
-        Category::whereId($id)->update($form_data);
-        return response()->json(['success'=>'Update successfuly.']);
+        $this->categoryRepository->update($id, $form_data);
+
+        $data = [
+            'success' => 'Cập nhật thành công.'
+        ];
+
+        return $data;
     }
 
     /**
@@ -118,11 +107,15 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        $this->authorize('delete-categories');
+        $this->authorize('delete');
 
-        $data = Category::findOrFail($id);
+        $data = $this->categoryRepository->find($id);
         $data->delete();
 
-        return response()->json('Delele successfuly.');
+        $data = [
+            'success' => 'Xóa thành công.'
+        ];
+
+        return $data;
     }
 }

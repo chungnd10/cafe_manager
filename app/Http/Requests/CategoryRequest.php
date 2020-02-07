@@ -2,8 +2,12 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\ValidationException;
 
 class CategoryRequest extends FormRequest
 {
@@ -26,7 +30,7 @@ class CategoryRequest extends FormRequest
     {
         // for add category
         $validator = [
-            "name" => 'required|max:255'
+            "name" => 'required|max:255|unique:categories'
         ];
 
         // for update category
@@ -47,5 +51,10 @@ class CategoryRequest extends FormRequest
             "name.unique" => "Tên đã tồn tại, hãy sử dụng tên khác.",
             "name.max" => "Không được vượt quá 255 ký tự."
         ];
+    }
+
+    protected function failedValidation(Validator $validator): void
+    {
+        throw new HttpResponseException(response()->json(['errors' => $validator->errors()]));
     }
 }

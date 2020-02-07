@@ -1,4 +1,6 @@
 <title>T-Coffee</title>
+<meta charset="UTF-8">
+<base href="{{url('')}}">
 <!-- Tell the browser to be responsive to screen width -->
 <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 <link rel="shortcut icon" href="{{ asset('upload/images/web-settings/icon-coffee.png') }}" type="image/x-icon"/>
@@ -14,6 +16,7 @@
 <link rel="stylesheet" href="{{ asset('admin_assets/dist/css/AdminLTE.min.css') }}">
 
 <link rel="stylesheet" href="{{ asset('admin_assets/dist/css/skins/_all-skins.min.css') }}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css">
 
 {{--Custom css--}}
 <link rel="stylesheet" href="{{ asset('css/common.css') }}">

@@ -1,3 +1,6 @@
+.text-danger, .text-success, .text-info, .text-warning{
+    font-size: 14px ;
+}
 .alert-info {
     color: #0c5460 !important;
     background-color: #d1ecf1 !important;
@@ -23,4 +26,11 @@
 }
 .form-label {
     font-size: 14px ;
+}
+
+.swal2-popup {
+  font-size: 1.5rem;
+}
+.swal2-container {
+  zoom: 1.5;
 }

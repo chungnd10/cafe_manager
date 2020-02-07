@@ -2,7 +2,8 @@
 @section('content')
     <section class="content-header">
         <h1>
-            Danh mục
+
+            Danh sách danh mục
         </h1>
         <ol class="breadcrumb">
             <li>
@@ -23,16 +24,15 @@
                                 <h4 class="modal-title">Thêm danh mục</h4>
                             </div>
                             <div class="modal-body">
-                                <span id="form_result"></span>
                                 <form action="#" id="category_form" method="post">
                                     @csrf
                                     <div class="form-group">
                                         <label class="form-label">Tên danh mục:</label>
                                         <span class="text-danger">*</span>
-                                        <input type="text" class="form-control" name="name" id="name">
-                                        <span class="text-danger" id="name_erros"></span>
+                                        <input type="text" class="form-control" autofocus name="name" id="name">
+                                        <span class="text-danger errors" id="name_errors"></span>
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group ">
                                         <button type="button"
                                                 class="btn btn-danger"
                                                 data-dismiss="modal">
@@ -40,38 +40,13 @@
                                         </button>
                                         <input type="hidden" name="action" id="action" />
                                         <input type="hidden" name="hidden_id" id="hidden_id" />
-                                        <input type="submit" name="action_button" id="action_button" class="btn btn-warning" value="Thêm" />
+                                        <input type="submit" name="action_button" id="action_button"
+                                               class="btn btn-success" value="Thêm" />
                                     </div>
                                 </form>
                             </div>
                         </div><!-- /.modal-content -->
                     </div><!-- /.modal-dialog -->
-                </div>
-                <div id="confirm_modal" class="modal fade" role="dialog">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                <h2 class="modal-title">Xác nhận</h2>
-                            </div>
-                            <div class="modal-body">
-                                <p>
-                                    Bạn có chắc chắn muốn xóa dữ liệu này không?<br>
-                                    Tất cả sản phẩm thuộc danh mục này cũng sẽ bị xóa!
-                                </p>
-                            </div>
-                            <div class="modal-footer ">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">
-                                    <i class="fa fa-close"></i>&nbsp;
-                                    Hủy
-                                </button>
-                                <button type="button" name="ok_button" id="ok_button" class="btn btn-danger">
-                                    <i class="fa fa-trash"></i>
-                                    Xóa
-                                </button>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </li>
         </ol>
@@ -110,6 +85,7 @@
             var category_table = $('#category-table');
 
             category_table.DataTable({
+                "order": [],
                 "language": {
                     url: "{{ asset('admin_assets/bower_components/datatables.net-bs/lang/vietnamese-lang.json') }}"
                 },
@@ -122,6 +98,7 @@
                     {
                         data: 'id',
                         name: 'id',
+                        orderable: false
                     },
                     {
                         data: 'name',
@@ -137,81 +114,92 @@
             });
             // END: config datatable
 
-            var category_form = $("#category_form");
-            //START: validate form
-            // category_form.validate({
-            //     rules: {
-            //         name: {
-            //             required: true
-            //         }
-            //     }
-            // });
-            //END: validate form
 
             // START: create category new
-            var form_result = $("#form_result");
+            var category_form = $("#category_form");
+            var errors = $(".errors");
 
             category_form.on('submit', function (event) {
                 event.preventDefault();
 
                 var action = $("#action").val();
+                var formData = new FormData(this);
+                var name_errors = $("#name_errors");
 
-                // if click add category
-                if (action === "Thêm") {
-                    $.ajax({
+                //function update
+                function storeCategory() {
+                    return $.ajax({
                         url: "{{ route('categories.store') }}",
                         method: "POST",
-                        data: new FormData(this),
+                        data: formData,
                         processData: false,
                         contentType: false,
                         cache: false,
-                        dataType: "json",
-                        success: function (data) {
-                            var html = "";
-                            if (data.errors) {
-                                html = " <div class='alert alert-danger'></div>";
-                                for (let i = 0; i < data.errors.length; i++) {
-                                    html += "<p>" + data.errors[i] + "</p>";
-                                }
-                                html += "</div>"
-                            }
+                        dataType: "json"
+                    });
+                }
 
-                            if (data.success) {
-                                html = " <div class='alert alert-success'>" + data.success + "</div>"
-                                category_form[0].reset();
-                                category_table.DataTable().ajax.reload();
-                            }
+                //function update
+                function updateCategory() {
+                    return $.ajax({
+                        url: "{{ route('categories.update') }}",
+                        method: "POST",
+                        data: formData,
+                        processData: false,
+                        contentType: false,
+                        cache: false,
+                        dataType: "json"
+                    });
+                }
 
-                            form_result.html(html);
+                // if click add category
+                if (action === "Thêm") {
+                    // execute create
+                    storeCategory().done(function (data) {
+                        if (data.errors) {
+                            // display errors
+                            name_errors.text(data.errors.name);
                         }
-                    })
+                        if (data.success) {
+                            // hidden modal
+                            form_modal.modal('hide');
+                            // reset form
+                            category_form[0].reset();
+                            // reload datatable
+                            category_table.DataTable().ajax.reload();
+                            // show message
+                            Swal.fire(
+                                'Thành công!',
+                                'Thêm danh mục thành công!',
+                                'success'
+                            )
+                        }
+                    });
                 }
 
                 // START: if click update category
                 if (action === "Cập nhật"){
-                    $.ajax({
-                        url: "{{ route('categories.update') }}",
-                        method: "POST",
-                        data: new FormData(this),
-                        processData: false,
-                        contentType: false,
-                        cache: false,
-                        dataType: "json",
-                        success: function (data) {
-                            console.log(data);
-                            if (data.errors) {
-                                $('#name_errors').text(data.errors.name);
-                                console.log(data);
-                            }
-                            if (data.success) {
-                                html = '<div class="alert alert-success">' + data.success + '</div>';
-                                category_form[0].reset();
-                                category_table.DataTable().ajax.reload();
-                            }
-                            form_result.html(html);
-                        },
-                        failed(){
-                            console.log(data);
+                    //execute update
+                    updateCategory().done(function (data) {
+                        if (data.errors) {
+                            // display errors
+                            name_errors.text(data.errors.name);
+                        }
+                        if (data.success) {
+                            // hidden modal
+                            form_modal.modal('hide');
+                            // reset form
+                            category_form[0].reset();
+                            // reload datatable
+                            category_table.DataTable().ajax.reload();
+                            // remove id updated
+                            hidden_id.val('');
+                            // show message
+                            Swal.fire(
+                                'Thành công!',
+                                'Cập nhật danh mục thành công!',
+                                'success'
+                            )
                         }
                     });
                 }
@@ -223,67 +211,100 @@
             var action = $('#action');
             var action_button = $('#action_button');
             var form_modal = $('#form_modal');
+            var create_buton = $('#create_record');
 
             // START: while click button create
-            var create_buton = $('#create_record');
             create_buton.click(function () {
+                // add title for modal
                 modal_title.text('Thêm danh mục');
+                // add action for button
                 action_button.val('Thêm');
+                // add action
                 action.val('Thêm');
+                // show modal
                 form_modal.modal('show');
             });
             // END: while click button create
 
             // START: show category for edit
-
             var hidden_id = $("#hidden_id");
+            var input_name = $("#name");
 
             $(document).on('click', '.edit', function () {
+                //get id
                 var id = $(this).attr('id');
-                var name = $("#name");
+                // function get data
+                function getCategory(){
+                    return $.ajax({
+                        url: "categories/" + id + "/edit",
+                        dataType: "json"
+                    });
+                }
 
-                form_result.html('');
-                $.ajax({
-                    url : "categories/" + id + "/edit",
-                    dataType: "json",
-                    success: function (html) {
-                        name.val(html.data.name);
-                        hidden_id.val(html.data.id);
-                        modal_title.text('Sửa danh mục');
-                        action.val('Cập nhật');
-                        action_button.val('Cập nhật');
-                        form_modal.modal('show');
-                    }
-                });
+                // get data
+                getCategory().done(function (html) {
+                    // add data for edit
+                    input_name.val(html.data.name);
+                    hidden_id.val(html.data.id);
+                    // edit title modal
+                    modal_title.text('Sửa danh mục');
+                    // edit action
+                    action.val('Cập nhật');
+                    // add action for button
+                    action_button.val('Cập nhật');
+                    // show modal
+                    form_modal.modal('show');
+                })
             });
             // END: show category for edit
 
             // START: delete category
-            var user_id;
-            var confirm_modal = $('#confirm_modal');
-            var ok_button = $('#ok_button');
-
+            // get id and show modal
             $(document).on('click', '.delete', function () {
-                user_id = $(this).attr('id');
-                $('#confirm_modal').modal('show');
-            });
+                //get id
+               var user_id = $(this).attr('id');
 
-            ok_button.click(function () {
-                $.ajax({
-                    url: "categories/destroy/" + user_id,
-                    beforeSend: function () {
-                        ok_button.text('Đang xóa...');
-                    },
-                    success: function (data) {
-                        setTimeout(function () {
-                            confirm_modal.modal('hide');
-                            category_table.DataTable().ajax.reload();
-                            ok_button.text('Xóa');
-                        }, 1000);
+                // funtion delete
+                function deleteCategory() {
+                    return $.ajax({
+                        url: "categories/destroy/" + user_id
+                    });
+                }
+                // confirm delete
+                Swal.fire({
+                    title: 'Bạn có chắc chắn muốn xóa không?',
+                    text: "Dữ liệu thuộc danh mục này cũng sẽ bị xóa",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    reverseButtons: true
+                }).then((result) => {
+                    // if confirm ok
+                    if (result.value) {
+                        deleteCategory().done(function (data) {
+                            if (data.success) {
+                                //show message
+                                Swal.fire(
+                                    'Đã xóa!',
+                                    'Dữ liệu đã được xóa.',
+                                    'success'
+                                );
+                                //reload datatable
+                                category_table.DataTable().ajax.reload();
+                            }
+                        });
                     }
                 });
             });
             // END: delete category
+
+            // START: handle while close modal
+            form_modal.on('hidden.bs.modal', function () {
+                // clear message errors
+                errors.text('');
+                // reset form
+                category_form[0].reset();
+            });
+            // END: handle while close modal
         });
     </script>
 @endsection
