@@ -5,9 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Validation\Rule;
-use Illuminate\Validation\ValidationException;
 
 class CategoryRequest extends FormRequest
 {
@@ -47,9 +45,9 @@ class CategoryRequest extends FormRequest
     public function messages()
     {
         return [
-            "name.required" => "Tên không được để trống.",
-            "name.unique" => "Tên đã tồn tại, hãy sử dụng tên khác.",
-            "name.max" => "Không được vượt quá 255 ký tự."
+            "name.required" => "*Tên không được để trống.",
+            "name.unique" => "*Tên đã tồn tại, hãy sử dụng tên khác.",
+            "name.max" => "*Không được vượt quá 255 ký tự."
         ];
     }
 

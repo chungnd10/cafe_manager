@@ -27,7 +27,7 @@ class CategoryController extends Controller
 
         if (request()->ajax()) {
             return datatables()->of($categories)
-                ->addColumn('action','admin.category.datatables.action')
+                ->addColumn('action','admin.datatables.action')
                 ->make(true);
         }
         return view('admin.category.index');
@@ -62,7 +62,7 @@ class CategoryController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param int $id
-     * @return \Illuminate\Http\Response
+     * @return mixed
      */
     public function edit($id)
     {
@@ -70,7 +70,11 @@ class CategoryController extends Controller
 
         $category = $this->categoryRepository->find($id);
 
-        return response()->json(['data' => $category]);
+        $data = [
+            'data' => $category
+        ];
+
+        return $data;
     }
 
     /**
