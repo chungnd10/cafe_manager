@@ -2,6 +2,7 @@
 namespace App\Repositories\Category;
 
 use App\Repositories\EloquentRepository;
+use App\Models\Category;
 
 class CategoryRepository extends EloquentRepository
 {
@@ -13,7 +14,7 @@ class CategoryRepository extends EloquentRepository
      */
     public function getModel()
     {
-        return \App\Models\Category::class;
+        return Category::class;
     }
 
 

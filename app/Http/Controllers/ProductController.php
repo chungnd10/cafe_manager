@@ -2,11 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Product;
-use Illuminate\Http\Request;
+use App\Http\Requests\ProductRequest;
+use App\Repositories\Category\CategoryRepository;
+use App\Repositories\Product\ProductRepository;
 
 class ProductController extends Controller
 {
+    protected $productRepository;
+    protected $categoryRepository;
+
+    public function __construct(
+        ProductRepository $productRepository,
+        CategoryRepository $categoryRepository
+    ) {
+        $this->productRepository = $productRepository;
+        $this->categoryRepository = $categoryRepository;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -14,85 +26,105 @@ class ProductController extends Controller
      */
     public function index()
     {
+        $this->authorize('view');
+
+        $products = $this->productRepository->datatables();
+        $categories = $this->categoryRepository->getAll();
         if (request()->ajax()) {
-            return datatables()->of(Product::latest()->get())
-                ->addColumn('action', function ($data) {
-                    $button = '<button type="button"
-                                        name="edit" 
-                                        id="' . $data->id. '" 
-                                        class="edit btn btn-primary btn-sm">
-                                   <i class="fa fa-pencil"></i>
-                                   &nbsp;&nbsp;Sửa
-                               </button>';
-                    $button .= '&nbsp;&nbsp;';
-                    $button .= '<button type="button" 
-                                    name="delete" 
-                                    id="' . $data->id . '" 
-                                    class="delete btn btn-danger btn-sm">
-                                    <i class="fa fa-trash"></i>
-                                    &nbsp;&nbsp;Xóa
-                                </button>';
-                    return $button;
-                })
-                ->rawColumns(['action'])
+            return datatables()->of($products)
+                ->addColumn('action', 'admin.datatables.action')
                 ->make(true);
         }
-        return view('admin.product.index');
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return view('admin.product.index', compact('categories'));
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @param \App\Http\Requests\ProductRequest $request
+     * @return mixed
      */
-    public function store(Request $request)
+    public function store(ProductRequest $request)
     {
-        //
-    }
+        $this->authorize('create');
 
-    /**
-     * Display the specified resource.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
+        $image = $request->file('avatar');
+
+        $form_data = [
+            'name' => $request->input('name'),
+            'price' => $request->input('price'),
+            'description' => $request->input('description'),
+            'category_id' => $request->input('category_id'),
+        ];
+
+        if ($image) {
+            $new_name = uniqid() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('upload/images/products'), $new_name);
+            $form_data['avatar'] = $new_name;
+        }
+
+        $this->productRepository->create($form_data);
+
+        $data = [
+            'success' => 'Thêm thành công.'
+        ];
+
+        return $data;
     }
 
     /**
      * Show the form for editing the specified resource.
      *
      * @param int $id
-     * @return \Illuminate\Http\Response
+     * @return mixed
      */
     public function edit($id)
     {
-        //
+        $this->authorize('update');
+
+        $product = $this->productRepository->find($id);
+
+        $data = [
+            'data' => $product
+        ];
+
+        return $data;
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param \App\Http\Requests\ProductRequest $request
      * @param int $id
-     * @return \Illuminate\Http\Response
+     * @return mixed
      */
-    public function update(Request $request, $id)
+    public function update(ProductRequest $request)
     {
-        //
+        $this->authorize('create');
+
+        $id = $request->input('hidden_id');
+        $image = $request->file('avatar');
+
+        $form_data = [
+            'name' => $request->input('name'),
+            'price' => $request->input('price'),
+            'description' => $request->input('description'),
+            'category_id' => $request->input('category_id'),
+        ];
+
+        if ($image) {
+            $new_name = uniqid() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('upload/images/products'), $new_name);
+            $form_data['avatar'] = $new_name;
+        }
+
+        $this->productRepository->update($id, $form_data);
+
+        $data = [
+            'success' => 'Thêm thành công.'
+        ];
+
+        return $data;
     }
 
     /**
@@ -103,6 +135,15 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $this->authorize('delete');
+
+        $data = $this->productRepository->find($id);
+        $data->delete();
+
+        $data = [
+            'success' => 'Xóa thành công.'
+        ];
+
+        return $data;
     }
 }

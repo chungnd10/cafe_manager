@@ -18,7 +18,7 @@ abstract class EloquentRepository
     }
 
     /**
-     * get model
+     * Get model
      * @return string
      */
     abstract public function getModel();

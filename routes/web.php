@@ -23,6 +23,8 @@ Route::post('categories/update', 'CategoryController@update')->name('categories.
 Route::get('categories/destroy/{id}', 'CategoryController@destroy');
 
 Route::resource('products', 'ProductController');
+Route::post('products/update', 'ProductController@update')->name('products.update');
+Route::get('products/destroy/{id}', 'ProductController@destroy');
 
 Route::resource('tables', 'TableController');
 
