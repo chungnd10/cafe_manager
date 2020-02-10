@@ -5,8 +5,10 @@ namespace App\Providers;
 use App\Models\Category;
 use App\Models\Permission;
 use App\Models\Product;
+use App\Models\Table;
 use App\Policies\CategoryPolicy;
 use App\Policies\ProductPolicy;
+use App\Policies\TablePolicy;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
@@ -21,6 +23,7 @@ class AuthServiceProvider extends ServiceProvider
         'App\Model' => 'App\Policies\ModelPolicy',
         Category::class => CategoryPolicy::class,
         Product::class => ProductPolicy::class,
+        Table::class => TablePolicy::class,
     ];
 
     /**
@@ -34,7 +37,7 @@ class AuthServiceProvider extends ServiceProvider
 
         Gate::before(function ($user) {
 
-            $ROLE_MANAGER = config('constants.role_manager');
+            $ROLE_MANAGER = config('constants.ROLE_MANAGER');
             if ($user->role_id === $ROLE_MANAGER) {
                 return true;
             }

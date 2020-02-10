@@ -22,3 +22,45 @@ function printErrorMessage(data) {
     html += '</div>';
     return html;
 }
+
+//function store
+function storeModel(url, formData) {
+    return $.ajax({
+        url: url,
+        method: "POST",
+        data: formData,
+        processData: false,
+        contentType: false,
+        cache: false,
+        dataType: "json"
+    });
+}
+
+// function get data
+function getModel(url) {
+    return $.ajax({
+        url: url,
+        dataType: "json"
+    });
+}
+
+//function update
+function updateModel(url, formData) {
+    return $.ajax({
+        url: url,
+        method: "POST",
+        data: formData,
+        processData: false,
+        contentType: false,
+        cache: false,
+        dataType: "json"
+    });
+}
+
+// funtion delete
+function deleteModel(url) {
+    return $.ajax({
+        url: url
+    });
+}
+

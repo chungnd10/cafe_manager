@@ -27,6 +27,8 @@ Route::post('products/update', 'ProductController@update')->name('products.updat
 Route::get('products/destroy/{id}', 'ProductController@destroy');
 
 Route::resource('tables', 'TableController');
+Route::post('tables/update', 'TableController@update')->name('tables.update');
+Route::get('tables/destroy/{id}', 'TableController@destroy');
 
 Route::resource('orders', 'OrderController');
 

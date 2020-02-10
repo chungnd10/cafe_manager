@@ -70,11 +70,7 @@ class CategoryController extends Controller
 
         $category = $this->categoryRepository->find($id);
 
-        $data = [
-            'data' => $category
-        ];
-
-        return $data;
+        return $category;
     }
 
     /**
@@ -113,8 +109,8 @@ class CategoryController extends Controller
     {
         $this->authorize('delete');
 
-        $data = $this->categoryRepository->find($id);
-        $data->delete();
+        $category = $this->categoryRepository->find($id);
+        $category->delete();
 
         $data = [
             'success' => 'Xóa thành công.'
