@@ -11,7 +11,7 @@
 |
 */
 
-// auth
+
 Auth::routes(['register' => false]);
 
 Route::get('logout', 'Auth\LogoutController@logout')->name('logout');
@@ -35,5 +35,7 @@ Route::resource('orders', 'OrderController');
 Route::resource('bills', 'BillController');
 
 Route::resource('users', 'UserController');
+Route::post('users/update', 'UserController@update')->name('users.update');
+Route::get('users/destroy/{id}', 'UserController@destroy');
 
 

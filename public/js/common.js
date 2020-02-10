@@ -1,6 +1,9 @@
 jQuery.validator.setDefaults({
     debug: true,
-    success: "valid"
+    success: function (element) {
+        $(element).closest('.form-group').removeClass('has-error');
+        element.remove();
+    }
 });
 
 function getBase64(file, selector) {

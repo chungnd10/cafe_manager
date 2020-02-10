@@ -23,7 +23,6 @@
                                 <h4 class="modal-title">Thêm sản phẩm</h4>
                             </div>
                             <div class="modal-body">
-                                <span id="form_message"></span>
                                 <form action="#" id="product_form" method="POST" enctype="multipart/form-data">
                                     @csrf
                                     <div class="row">
@@ -32,7 +31,7 @@
                                                 <label>Tên sản phẩm</label>
                                                 <span class="text-danger">*</span>
                                                 <input type="text" name="name" id="name" class="form-control"
-                                                       placeholder="VD: Sản phẩm 1..."
+                                                       placeholder="Sản phẩm 1..."
                                                 >
                                             </div>
                                             <!-- /.form-group -->
@@ -40,7 +39,7 @@
                                                 <label>Giá</label>
                                                 <span class="text-danger">*</span>
                                                 <input type="text" name="price" id="price" class="form-control"
-                                                       placeholder="VD: 120.000"
+                                                       placeholder="120.000"
                                                 >
                                             </div>
                                             <!-- /.form-group -->
@@ -74,7 +73,7 @@
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <label>Mô tả</label>
-                                                <textarea placeholder="VD: Đây là mô tả..." name="description"
+                                                <textarea placeholder="Mô tả..." name="description"
                                                           id="description" cols="30" rows="6"
                                                           class="form-control"></textarea>
                                                 <span class="text-danger errors" id="description_errors"></span>
@@ -251,10 +250,8 @@
             form_modal.on('hidden.bs.modal', function () {
                 let img_display = $("#img_display");
                 let img_default = 'product-default.jpg';
-                let form_message = $("#form_message");
                 let urlImage = 'upload/images/products/';
 
-                form_message.html('');
                 product_form[0].reset();
                 product_form.find('label.error').text('');
                 product_form.find('input').removeClass('error');
@@ -269,7 +266,6 @@
 
                 let formData = new FormData(this);
                 let action = $("#action").val();
-                let form_message = $("#form_message");
 
                 if (product_form.valid()) {
                     if (action === "Thêm") {
@@ -277,7 +273,11 @@
 
                         storeModel(urlStore, formData).done(function (data) {
                             if (data.errors) {
-                                form_message.html(printErrorMessage(data));
+                                Swal.fire(
+                                    'Lỗi !',
+                                    data.errors[0],
+                                    'error'
+                                )
                             }
                             if (data.success) {
                                 let form_modal = $('#form_modal');
@@ -299,7 +299,11 @@
 
                         updateModel(urlUpdate, formData).done(function (data) {
                             if (data.errors) {
-                                form_message.html(printErrorMessage(data));
+                                Swal.fire(
+                                    'Lỗi !',
+                                    data.errors[0],
+                                    'error'
+                                )
                             }
                             if (data.success) {
                                 let hidden_id = $("#hidden_id");
@@ -356,13 +360,10 @@
             // END: show for edit
 
             // START: delete category
-            // get id and show modal
             $(document).on('click', '.delete', function () {
-                //get id
                 let product_id = $(this).attr('id');
                 let urlDelete = "products/destroy/" + product_id;
 
-                // confirm delete
                 Swal.fire({
                     title: 'Bạn có chắc chắn muốn xóa không?',
                     text: "Dữ liệu liên quan đến sản phẩm này cũng sẽ bị xóa",
@@ -370,17 +371,14 @@
                     showCancelButton: true,
                     reverseButtons: true
                 }).then((result) => {
-                    // if confirm ok
                     if (result.value) {
                         deleteModel(urlDelete).done(function (data) {
                             if (data.success) {
-                                //show message
                                 Swal.fire(
                                     'Đã xóa!',
                                     'Dữ liệu đã được xóa.',
                                     'success'
                                 );
-                                //reload datatable
                                 product_table.DataTable().ajax.reload();
                             }
                         });

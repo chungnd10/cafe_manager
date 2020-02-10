@@ -15,8 +15,7 @@ class TablesTableSeeder extends Seeder
         for ($i = 1; $i <= 30; $i++) {
             $item = [
                 'name' => 'Bàn số ' . $i,
-                'number_of_seats' => 4,
-                'table_status_id' => 1
+                'number_of_seats' => 4
             ];
 
             $tables[] = $item;

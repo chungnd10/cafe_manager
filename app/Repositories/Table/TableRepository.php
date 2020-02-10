@@ -14,14 +14,7 @@ class TableRepository extends EloquentRepository
 
     public function datatables()
     {
-        $tables = Table::join('table_status', 'table_status.id', '=', 'tables.table_status_id')
-            ->select(
-                'tables.id',
-                'tables.name as table_name',
-                'number_of_seats',
-                'table_status.name as status_name'
-            )
-            ->orderBy('tables.id', 'desc')
+        $tables = Table::orderBy('id', 'desc')
             ->get();
         return $tables;
     }

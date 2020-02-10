@@ -25,7 +25,7 @@ class UsersTableSeeder extends Seeder
             [
                 'full_name' => 'Nguyễn Văn A',
                 'avatar' => 'avatar-default.jpg',
-                'email' => 'phucvu@localhost.com',
+                'email' => 'quanly@localhost.com',
                 'password' => bcrypt(12345678),
                 'phone_number' => '0363223617',
                 'birthday' => '1996-10-31',
@@ -35,7 +35,7 @@ class UsersTableSeeder extends Seeder
             [
                 'full_name' => 'Nguyễn Văn B',
                 'avatar' => 'avatar-default.jpg',
-                'email' => 'phache@localhost.com',
+                'email' => 'phucvu@localhost.com',
                 'password' => bcrypt(12345678),
                 'phone_number' => '0363223616',
                 'birthday' => '1996-10-31',
@@ -45,12 +45,22 @@ class UsersTableSeeder extends Seeder
             [
                 'full_name' => 'Nguyễn Văn C',
                 'avatar' => 'avatar-default.jpg',
-                'email' => 'thungan@localhost.com',
+                'email' => 'phache@localhost.com',
                 'password' => bcrypt(12345678),
                 'phone_number' => '0363223615',
                 'birthday' => '1996-10-31',
                 'address' => 'Dịch Vọng, Cầu Giấy, Hà Nội',
                 'role_id' => 4
+            ],
+            [
+                'full_name' => 'Nguyễn Văn D',
+                'avatar' => 'avatar-default.jpg',
+                'email' => 'thungan@localhost.com',
+                'password' => bcrypt(12345678),
+                'phone_number' => '0363223614',
+                'birthday' => '1996-10-31',
+                'address' => 'Dịch Vọng, Cầu Giấy, Hà Nội',
+                'role_id' => 5
             ]
         ];
         DB::table('users')->insert($status);
