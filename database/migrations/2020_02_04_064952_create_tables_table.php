@@ -18,12 +18,6 @@ class CreateTablesTable extends Migration
             $table->string('name')->unique();
             $table->integer('number_of_seats');
 
-            $table->unsignedInteger('table_status_id');
-            $table->foreign('table_status_id')
-                ->references('id')
-                ->on('table_status')
-                ->onDelete('CASCADE');
-
             $table->timestamps();
         });
     }

@@ -13,6 +13,9 @@ class RolesTableSeeder extends Seeder
     {
         $roles = [
             [
+                'name' => 'Super Admin'
+            ],
+            [
                 'name' => 'Quản lý'
             ],
             [

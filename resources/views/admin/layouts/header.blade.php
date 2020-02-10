@@ -55,7 +55,7 @@
                         <li>
                             <a href="{{ route('users.index') }}">
                                 <i class="fa fa-users"></i>
-                                User
+                                Người dùng
                             </a>
                         </li>
                     @endcan
@@ -92,7 +92,7 @@
                                     <a href="#" class="btn btn-default btn-flat">Profile</a>
                                 </div>
                                 <div class="pull-right">
-                                    <a href="{{ route('logout') }}" class="btn btn-default btn-flat">Sign out</a>
+                                    <a href="{{ route('logout') }}" class="btn btn-default btn-flat">Đăng xuất</a>
                                 </div>
                             </li>
                         </ul>

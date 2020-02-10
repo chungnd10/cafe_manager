@@ -15,6 +15,8 @@
 <script src="{{ asset('admin_assets/bower_components/fastclick/lib/fastclick.js') }}"></script>
 <!-- AdminLTE App -->
 <script src="{{ asset('admin_assets/dist/js/adminlte.min.js') }}"></script>
+
+<script src="{{ asset('admin_assets/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js') }}"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="{{ asset('admin_assets/dist/js/demo.js') }}"></script>
 

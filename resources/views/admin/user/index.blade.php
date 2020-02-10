@@ -5,190 +5,460 @@
             Danh sách người dùng
         </h1>
         <ol class="breadcrumb">
-            <li><a href="/"><i class="fa fa-dashboard"></i>Dashboard</a></li>
-            <li><a href="{{ route('category') }}"></a>Người dùng</li>
+            <li>
+                <button type="button" class="btn btn-success btn-sm"
+                        data-toggle="modal"
+                        data-target="#form-modal"
+                        id="create_record"
+                        name="create_record"
+                >
+                    <i class="fa fa-plus"></i>&nbsp;&nbsp;Thêm
+                </button>
+                <div class="modal fade" id="form_modal">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">×</span></button>
+                                <h4 class="modal-title">Thêm người dùng</h4>
+                            </div>
+                            <div class="modal-body">
+                                <form action="#" id="user_form" method="POST" enctype="multipart/form-data">
+                                    @csrf
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Họ và tên</label>
+                                                <span class="text-danger">*</span>
+                                                <input type="text" name="full_name" id="full_name" class="form-control"
+                                                       placeholder="Nguyễn Văn A..."
+                                                >
+                                            </div>
+                                            <!-- /.form-group -->
+                                            <div class="form-group">
+                                                <label>Email</label>
+                                                <span class="text-danger">*</span>
+                                                <input type="text" name="email" id="email" class="form-control"
+                                                       placeholder="example@example.com"
+                                                >
+                                            </div>
+                                            <!-- /.form-group -->
+                                            <div class="form-group">
+                                                <label>Số di động</label>
+                                                <span class="text-danger">*</span>
+                                                <input type="text" name="phone_number" id="phone_number" class="form-control"
+                                                       placeholder="0987 654 321"
+                                                >
+                                            </div>
+                                            <!-- /.form-group -->
+                                            <div class="form-group">
+                                                <label>Ngày sinh</label>
+                                                <span class="text-danger">*</span>
+                                                <input type="text" name="birthday" id="birthday" class="form-control"
+                                                placeholder="yyyy-mm-dd" data-date-format="yyyy-mm-dd"
+                                                >
+                                            </div>
+                                            <!-- /.form-group -->
+                                            <div class="form-group">
+                                                <label>Mật khẩu</label>
+                                                <span class="text-danger">*</span>
+                                                <input type="text" name="password" id="password" class="form-control"
+                                                placeholder="Nhập mật khẩu"
+                                                >
+                                            </div>
+                                            <!-- /.form-group -->
+                                            <div class="form-group">
+                                                <label>Nhập lại mật khẩu</label>
+                                                <span class="text-danger">*</span>
+                                                <input type="text" name="cf_password" id="cf_password" class="form-control"
+                                                placeholder="Nhập lại mật khẩu"
+                                                >
+                                            </div>
+                                            <!-- /.form-group -->
+                                        </div>
+                                        <!-- /.col -->
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Ảnh</label>
+                                                <span class="text-danger">*</span>
+                                                <input type="file" name="avatar" id="avatar" class="form-control">
+                                            </div>
+                                            <!-- /.form-group -->
+                                            <div class="form-group">
+                                                <img src="{{ asset('upload/images/users/avatar-default.jpg') }}"
+                                                     alt="image" id="img_display"
+                                                     class="img-responsive img-bordered" width="130"
+                                                >
+                                            </div>
+                                            <!-- /.form-group -->
+                                            <div class="form-group">
+                                                <label>Quyền</label>
+                                                <span class="text-danger">*</span>
+                                                <select name="role_id" id="role_id" class="form-control">
+                                                    <option value=''>Chọn quyền</option>
+                                                    @foreach($roles as $role)
+                                                        <option value="{{ $role->id }}">{{ $role->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <!-- /.form-group -->
+                                            <div class="form-group">
+                                                <label>Địa chỉ</label>
+                                                <span class="text-danger">*</span>
+                                                <textarea placeholder="Hà nội..." name="address"
+                                                          id="address"  rows="5"
+                                                          class="form-control"></textarea>
+                                            </div>
+                                        </div><!-- /.col -->
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <button type="button"
+                                                        class="btn btn-danger"
+                                                        data-dismiss="modal">
+                                                    <i class="fa fa-close"></i>&nbsp;&nbsp;Hủy
+                                                </button>
+                                                <input type="hidden" name="action" id="action"/>
+                                                <input type="hidden" name="hidden_id" id="hidden_id"/>
+                                                <button class="btn btn-success" type="submit">
+                                                    <i class="fa fa-save"></i>&nbsp;Lưu
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div><!-- /.modal-content -->
+                    </div><!-- /.modal-dialog -->
+                </div>
+            </li>
         </ol>
     </section>
     <!-- Main content -->
     <section class="content">
         <div class="box">
-            <div class="box-header">
-                <h3 class="box-title">Data Table With Full Features</h3>
-            </div>
             <!-- /.box-header -->
             <div class="box-body">
-                <div id="example1_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <div class="dataTables_length" id="example1_length"><label>Show <select
-                                            name="example1_length" aria-controls="example1"
-                                            class="form-control input-sm">
-                                        <option value="10">10</option>
-                                        <option value="25">25</option>
-                                        <option value="50">50</option>
-                                        <option value="100">100</option>
-                                    </select> entries</label></div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div id="example1_filter" class="dataTables_filter"><label>Search:<input type="search"
-                                                                                                     class="form-control input-sm"
-                                                                                                     placeholder=""
-                                                                                                     aria-controls="example1"></label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <table id="example1" class="table table-bordered table-striped dataTable" role="grid"
-                                   aria-describedby="example1_info">
-                                <thead>
-                                <tr role="row">
-                                    <th class="sorting_asc" tabindex="0" aria-controls="example1" rowspan="1"
-                                        colspan="1" aria-sort="ascending"
-                                        aria-label="Rendering engine: activate to sort column descending"
-                                        style="width: 136px;">Rendering engine
-                                    </th>
-                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1"
-                                        aria-label="Browser: activate to sort column ascending" style="width: 170px;">
-                                        Browser
-                                    </th>
-                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1"
-                                        aria-label="Platform(s): activate to sort column ascending"
-                                        style="width: 149px;">Platform(s)
-                                    </th>
-                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1"
-                                        aria-label="Engine version: activate to sort column ascending"
-                                        style="width: 115px;">Engine version
-                                    </th>
-                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1"
-                                        aria-label="CSS grade: activate to sort column ascending" style="width: 82px;">
-                                        CSS grade
-                                    </th>
-                                </tr>
-                                </thead>
-                                <tbody>
-
-
-                                <tr role="row" class="odd">
-                                    <td class="sorting_1">Gecko</td>
-                                    <td>Firefox 1.0</td>
-                                    <td>Win 98+ / OSX.2+</td>
-                                    <td>1.7</td>
-                                    <td>A</td>
-                                </tr>
-                                <tr role="row" class="even">
-                                    <td class="sorting_1">Gecko</td>
-                                    <td>Firefox 1.5</td>
-                                    <td>Win 98+ / OSX.2+</td>
-                                    <td>1.8</td>
-                                    <td>A</td>
-                                </tr>
-                                <tr role="row" class="odd">
-                                    <td class="sorting_1">Gecko</td>
-                                    <td>Firefox 2.0</td>
-                                    <td>Win 98+ / OSX.2+</td>
-                                    <td>1.8</td>
-                                    <td>A</td>
-                                </tr>
-                                <tr role="row" class="even">
-                                    <td class="sorting_1">Gecko</td>
-                                    <td>Firefox 3.0</td>
-                                    <td>Win 2k+ / OSX.3+</td>
-                                    <td>1.9</td>
-                                    <td>A</td>
-                                </tr>
-                                <tr role="row" class="odd">
-                                    <td class="sorting_1">Gecko</td>
-                                    <td>Camino 1.0</td>
-                                    <td>OSX.2+</td>
-                                    <td>1.8</td>
-                                    <td>A</td>
-                                </tr>
-                                <tr role="row" class="even">
-                                    <td class="sorting_1">Gecko</td>
-                                    <td>Camino 1.5</td>
-                                    <td>OSX.3+</td>
-                                    <td>1.8</td>
-                                    <td>A</td>
-                                </tr>
-                                <tr role="row" class="odd">
-                                    <td class="sorting_1">Gecko</td>
-                                    <td>Netscape 7.2</td>
-                                    <td>Win 95+ / Mac OS 8.6-9.2</td>
-                                    <td>1.7</td>
-                                    <td>A</td>
-                                </tr>
-                                <tr role="row" class="even">
-                                    <td class="sorting_1">Gecko</td>
-                                    <td>Netscape Browser 8</td>
-                                    <td>Win 98SE+</td>
-                                    <td>1.7</td>
-                                    <td>A</td>
-                                </tr>
-                                <tr role="row" class="odd">
-                                    <td class="sorting_1">Gecko</td>
-                                    <td>Netscape Navigator 9</td>
-                                    <td>Win 98+ / OSX.2+</td>
-                                    <td>1.8</td>
-                                    <td>A</td>
-                                </tr>
-                                <tr role="row" class="even">
-                                    <td class="sorting_1">Gecko</td>
-                                    <td>Mozilla 1.0</td>
-                                    <td>Win 95+ / OSX.1+</td>
-                                    <td>1</td>
-                                    <td>A</td>
-                                </tr>
-                                </tbody>
-                                <tfoot>
-                                <tr>
-                                    <th rowspan="1" colspan="1">Rendering engine</th>
-                                    <th rowspan="1" colspan="1">Browser</th>
-                                    <th rowspan="1" colspan="1">Platform(s)</th>
-                                    <th rowspan="1" colspan="1">Engine version</th>
-                                    <th rowspan="1" colspan="1">CSS grade</th>
-                                </tr>
-                                </tfoot>
-                            </table>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-5">
-                            <div class="dataTables_info" id="example1_info" role="status" aria-live="polite">Showing 1
-                                to 10 of 57 entries
-                            </div>
-                        </div>
-                        <div class="col-sm-7">
-                            <div class="dataTables_paginate paging_simple_numbers" id="example1_paginate">
-                                <ul class="pagination">
-                                    <li class="paginate_button previous disabled" id="example1_previous"><a href="#"
-                                                                                                            aria-controls="example1"
-                                                                                                            data-dt-idx="0"
-                                                                                                            tabindex="0">Previous</a>
-                                    </li>
-                                    <li class="paginate_button active"><a href="#" aria-controls="example1"
-                                                                          data-dt-idx="1" tabindex="0">1</a></li>
-                                    <li class="paginate_button "><a href="#" aria-controls="example1" data-dt-idx="2"
-                                                                    tabindex="0">2</a></li>
-                                    <li class="paginate_button "><a href="#" aria-controls="example1" data-dt-idx="3"
-                                                                    tabindex="0">3</a></li>
-                                    <li class="paginate_button "><a href="#" aria-controls="example1" data-dt-idx="4"
-                                                                    tabindex="0">4</a></li>
-                                    <li class="paginate_button "><a href="#" aria-controls="example1" data-dt-idx="5"
-                                                                    tabindex="0">5</a></li>
-                                    <li class="paginate_button "><a href="#" aria-controls="example1" data-dt-idx="6"
-                                                                    tabindex="0">6</a></li>
-                                    <li class="paginate_button next" id="example1_next"><a href="#"
-                                                                                           aria-controls="example1"
-                                                                                           data-dt-idx="7" tabindex="0">Next</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <table id="user_table"
+                               class="table table-bordered table-striped dataTable"
+                               role="grid"
+                               aria-describedby="example1_info">
+                            <thead>
+                            <tr role="row">
+                                <th>ID</th>
+                                <th>Họ và tên</th>
+                                <th>Ảnh</th>
+                                <th>Số điện thoại</th>
+                                <th>Quyền</th>
+                                <th>Hành động</th>
+                            </tr>
+                            </thead>
+                        </table>
                     </div>
                 </div>
             </div>
             <!-- /.box-body -->
         </div>
     </section>
+@endsection
+@section('script')
+    <script src="{{ asset('js/product/product.js') }}"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            //START: config datatable
+            let user_table = $('#user_table');
+            user_table.DataTable({
+                "order": [],
+                "language": {
+                    url: "{{ asset('admin_assets/bower_components/datatables.net-bs/lang/vietnamese-lang.json') }}"
+                },
+                "processing": true,
+                "serverSide": true,
+                "response": true,
+                ajax: {
+                    url: "{{ route('users.index') }}",
+                },
+                columns: [
+                    {
+                        data: 'id',
+                        name: 'id',
+                    },
+                    {
+                        data: 'full_name',
+                        name: 'full_name',
+                    },
+                    {
+                        data: 'avatar',
+                        name: 'avatar',
+                        render: function (data) {
+                            return "<img class=img-bordered src={{ asset('/upload/images/users/') }}/" + data + " width='80' />"
+                        },
+                        orderable: false
+                    },
+                    {
+                        data: 'phone_number',
+                        name: 'phone_number',
+                    },
+                    {
+                        data: 'role_name',
+                        name: 'role_name',
+                    },
+                    {
+                        data: 'action',
+                        name: 'action',
+                        orderable: false
+                    }
+                ]
+            });
+            //END: config datatable
+
+            //START: validate
+            let user_form = $("#user_form");
+            user_form.validate({
+                rules: {
+                    full_name: {
+                        required: true,
+                        maxlength: 255,
+                    },
+                    email: {
+                        required: true,
+                        emailGood: true,
+                    },
+                    phone_number: {
+                        required: true,
+                        phoneNumberVietNam: true
+                    },
+                    birthday: {
+                        required: true,
+                    },
+                    role_id: {
+                        required: true,
+                    },
+                    address: {
+                        required: true,
+                        maxlength: 255,
+                    },
+                    avatar: {
+                        extension: "jpg|jpeg|png"
+                    },
+                    password: {
+                        required: true,
+                        minlength: 8,
+                        maxlength: 40,
+                    },
+                    cf_password: {
+                        required: true,
+                        equalTo: password,
+                    },
+                },
+                messages: {
+                    full_name: {
+                        maxlength: '*Không được vượt quá 255 ký tự.',
+                    },
+                    address: {
+                        maxlength: '*Không được vượt quá 255 ký tự.',
+                    },
+                    avatar: {
+                        extension: "*Chỉ chấp nhận ảnh jpg, jpeg, png."
+                    },
+                    password: {
+                        minlength: '*Yêu cầu mật khẩu từ 8-40 ký tự',
+                        maxlength: '*Yêu cầu mật khẩu từ 8-40 ký tự',
+                    },
+                    cf_password: {
+                        equalTo: '*Nhập lại mật khẩu không đúng.',
+                    },
+                }
+            });
+            //END: validate
+
+            //START:
+            $('#birthday').datepicker({
+                autoclose: true,
+                dateFormat: 'yyyy-mm-dd'
+            });
+            //END:
+
+
+            // START: display image for input
+            let inputImage = $("#avatar");
+            inputImage.on('change', function () {
+                let file = this.files[0];
+                let img_display = $("#img_display");
+
+                if (file) {
+                    getBase64(file, img_display);
+                }
+            });
+            // END: display image for input
+
+            // START: while click button create
+            let create_button = $('#create_record');
+            create_button.click(function () {
+                let action = $('#action');
+                let form_modal = $('#form_modal');
+                let password = $('#password');
+                let cf_password = $('#cf_password');
+
+                action.val('Thêm');
+                form_modal.modal('show');
+                password.rules('add', 'required');
+                cf_password.rules('add', 'required');
+            });
+            // END: while click button create
+
+            // START: handle while close modal
+            let form_modal = $('#form_modal');
+            form_modal.on('hidden.bs.modal', function () {
+                let img_display = $("#img_display");
+                let img_default = 'avatar-default.jpg';
+                let urlImage = 'upload/images/users/';
+
+                user_form[0].reset();
+                user_form.find('label.error').text('');
+                user_form.find('input').removeClass('error');
+                user_form.find('select').removeClass('error');
+                img_display.attr("src", urlImage + img_default);
+            });
+            // END: handle while close modal
+
+            // START: create category new
+
+            user_form.on('submit', function (e) {
+                let formData = new FormData(this);
+                let action = $("#action").val();
+
+                if (user_form.valid()) {
+                    if (action === "Thêm") {
+                        let urlStore = "{{ route('users.store') }}";
+
+                        storeModel(urlStore, formData).done(function (data) {
+                            if (data.errors) {
+                                Swal.fire(
+                                    'Lỗi!',
+                                    data.errors[0],
+                                    'error'
+                                )
+                            }
+                            if (data.success) {
+                                let form_modal = $('#form_modal');
+
+                                form_modal.modal('hide');
+                                user_form[0].reset();
+                                user_table.DataTable().ajax.reload();
+                                Swal.fire(
+                                    'Thành công!',
+                                    'Thêm người dùng thành công!',
+                                    'success'
+                                )
+                            }
+                        });
+                    }
+
+                    if (action === "Cập nhật") {
+                        let urlUpdate = "{{ route('users.update') }}";
+
+                        updateModel(urlUpdate, formData).done(function (data) {
+                            if (data.errors) {
+                                Swal.fire(
+                                    'Lỗi !',
+                                    data.errors[0],
+                                    'error'
+                                )
+                            }
+                            if (data.success) {
+                                let hidden_id = $("#hidden_id");
+                                let form_modal = $('#form_modal');
+
+                                form_modal.modal('hide');
+                                user_form[0].reset();
+                                user_table.DataTable().ajax.reload();
+                                hidden_id.val('');
+                                Swal.fire(
+                                    'Thành công!',
+                                    'Cập nhật người dùng thành công!',
+                                    'success'
+                                )
+                            }
+                        });
+                    }
+                }
+            });
+            // END: create category new
+
+            // START: show  for edit
+            $(document).on('click', '.edit', function () {
+
+                let id = $(this).attr('id');
+                let urlEdit = "users/" + id + "/edit";
+
+                getModel(urlEdit).done(function (data) {
+
+                    let hidden_id = $("#hidden_id");
+
+                    let full_name = $("#full_name");
+                    let email = $("#email ");
+                    let phone_number = $("#phone_number ");
+                    let birthday = $("#birthday ");
+                    let role_id = $("#role_id ");
+                    let address = $("#address ");
+
+                    let img_display = $("#img_display");
+                    let modal_title = $('.modal-title');
+                    let action = $('#action');
+                    let form_modal = $('#form_modal');
+                    let urlImage = 'upload/images/users/';
+
+                    hidden_id.val(data.id);
+                    full_name.val(data.full_name);
+                    email.val(data.email);
+                    phone_number.val(data.phone_number);
+                    birthday.val(data.birthday);
+                    role_id.val(data.role_id);
+                    address.val(data.address);
+
+                    img_display.attr('src', urlImage + data.avatar);
+                    modal_title.text('Sửa người dùng');
+                    action.val('Cập nhật');
+                    form_modal.modal('show');
+
+                    let password = $('#password');
+                    let cf_password = $('#cf_password');
+                    password.rules('remove', 'required');
+                    cf_password.rules('remove', 'required');
+                })
+            });
+            // END: show for edit
+
+            // START: delete category
+            $(document).on('click', '.delete', function () {
+                let product_id = $(this).attr('id');
+                let urlDelete = "users/destroy/" + product_id;
+
+                Swal.fire({
+                    title: 'Bạn có chắc chắn muốn xóa không?',
+                    text: "Dữ liệu liên quan đến người dùng này cũng sẽ bị xóa",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.value) {
+                        deleteModel(urlDelete).done(function (data) {
+                            if (data.success) {
+                                Swal.fire(
+                                    'Đã xóa!',
+                                    'Dữ liệu đã được xóa.',
+                                    'success'
+                                );
+                                user_table.DataTable().ajax.reload();
+                            }
+                        });
+                    }
+                });
+            });
+            // END: delete category
+        });
+    </script>
 @endsection

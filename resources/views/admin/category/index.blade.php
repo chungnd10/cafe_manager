@@ -24,14 +24,12 @@
                                 <h4 class="modal-title">Thêm danh mục</h4>
                             </div>
                             <div class="modal-body">
-                                <span id="form_message"></span>
                                 <form action="#" id="category_form" method="post">
                                     @csrf
                                     <div class="form-group">
                                         <label class="form-label">Tên danh mục:</label>
                                         <span class="text-danger">*</span>
                                         <input type="text" class="form-control" autofocus name="name" id="name">
-                                        <label id="name-error" class="error" for="name"></label>
                                     </div>
                                     <div class="form-group ">
                                         <button type="button"
@@ -149,9 +147,7 @@
             let form_modal = $('#form_modal');
             form_modal.on('hidden.bs.modal', function () {
                 let category_form = $("#category_form");
-                let form_message = $("#form_message");
 
-                form_message.html();
                 category_form.find('label.error').text('');
                 category_form.find('input').removeClass('error');
                 category_form[0].reset();
@@ -170,8 +166,11 @@
 
                         storeModel(urlStore, formData).done(function (data) {
                             if (data.errors) {
-                                let form_message = $("#form_message");
-                                form_message.html(printErrorMessage(data));
+                                Swal.fire(
+                                    'Lỗi !',
+                                    data.errors[0],
+                                    'error'
+                                )
                             }
                             if (data.success) {
                                 form_modal.modal('hide');
@@ -192,8 +191,11 @@
 
                         updateModel(urlUpdate, formData).done(function (data) {
                             if (data.errors) {
-                                let form_message = $("#form_message");
-                                form_message.html(printErrorMessage(data));
+                                Swal.fire(
+                                    'Lỗi !',
+                                    data.errors[0],
+                                    'error'
+                                )
                             }
                             if (data.success) {
                                 form_modal.modal('hide');

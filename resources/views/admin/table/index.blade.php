@@ -29,25 +29,24 @@
                                     @csrf
                                     <div class="row">
                                         <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label class="form-label">Tên bàn:</label>
-                                            <span class="text-danger">*</span>
-                                            <input type="text" class="form-control" name="name" id="name">
-                                            <label id="name-error" class="error" for="name"></label>
+                                            <div class="form-group">
+                                                <label class="form-label">Tên bàn:</label>
+                                                <span class="text-danger">*</span>
+                                                <input type="text" class="form-control" name="name" id="name">
+                                                <label id="name-error" class="error" for="name"></label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="form-label">Số chỗ:</label>
+                                                <span class="text-danger">*</span>
+                                                <input type="text" class="form-control"
+                                                       name="number_of_seats" id="number_of_seats">
+                                                <label id="number_of_seats-error" class="error"
+                                                       for="number_of_seats"></label>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label class="form-label">Số chỗ:</label>
-                                            <span class="text-danger">*</span>
-                                            <input type="text" class="form-control"
-                                                   name="number_of_seats" id="number_of_seats">
-                                            <label id="number_of_seats-error" class="error" for="number_of_seats"></label>
-                                        </div>
-                                    </div>
-                                    </div>
-
-
                                     <div class="form-group ">
                                         <button type="button"
                                                 class="btn btn-danger"
@@ -84,8 +83,7 @@
                                 <th>ID</th>
                                 <th>Tên</th>
                                 <th>Số chỗ</th>
-                                <th>Trạng thái</th>
-                                <th>Hành động</th>
+                                <th width="20%">Hành động</th>
                             </tr>
                             </thead>
                         </table>
@@ -119,16 +117,12 @@
                         name: 'id',
                     },
                     {
-                        data: 'table_name',
-                        name: 'table_name',
+                        data: 'name',
+                        name: 'name',
                     },
                     {
                         data: 'number_of_seats',
                         name: 'number_of_seats',
-                    },
-                    {
-                        data: 'status_name',
-                        name: 'status_name',
                     },
                     {
                         data: 'action',
@@ -181,9 +175,7 @@
             let form_modal = $('#form_modal');
             form_modal.on('hidden.bs.modal', function () {
                 let table_form = $("#table_form");
-                let form_message = $("#form_message");
 
-                form_message.html();
                 table_form.find('label.error').text('');
                 table_form.find('input').removeClass('error');
                 table_form[0].reset();
@@ -201,8 +193,11 @@
 
                         storeModel(urlStore, formData).done(function (data) {
                             if (data.errors) {
-                                let form_message = $("#form_message");
-                                form_message.html(printErrorMessage(data));
+                                Swal.fire(
+                                    'Lỗi !',
+                                    data.errors[0],
+                                    'error'
+                                )
                             }
                             if (data.success) {
                                 form_modal.modal('hide');
@@ -223,8 +218,11 @@
 
                         updateModel(urlUpdate, formData).done(function (data) {
                             if (data.errors) {
-                                let form_message = $("#form_message");
-                                form_message.html(printErrorMessage(data));
+                                Swal.fire(
+                                    'Lỗi !',
+                                    data.errors[0],
+                                    'error'
+                                )
                             }
                             if (data.success) {
                                 form_modal.modal('hide');
