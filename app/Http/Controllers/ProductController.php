@@ -84,11 +84,7 @@ class ProductController extends Controller
 
         $product = $this->productRepository->find($id);
 
-        $data = [
-            'data' => $product
-        ];
-
-        return $data;
+        return $product;
     }
 
     /**

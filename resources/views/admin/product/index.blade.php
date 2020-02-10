@@ -120,7 +120,7 @@
                                 <th>Giá</th>
                                 <th>Mô tả</th>
                                 <th>Danh mục</th>
-                                <th>Hành dộng</th>
+                                <th>Hành động</th>
                             </tr>
                             </thead>
                         </table>
@@ -275,7 +275,7 @@
                     if (action === "Thêm") {
                         let urlStore = "{{ route('products.store') }}";
 
-                        store(urlStore, formData).done(function (data) {
+                        storeModel(urlStore, formData).done(function (data) {
                             if (data.errors) {
                                 form_message.html(printErrorMessage(data));
                             }
@@ -297,7 +297,7 @@
                     if (action === "Cập nhật") {
                         let urlUpdate = "{{ route('products.update') }}";
 
-                        update(urlUpdate, formData).done(function (data) {
+                        updateModel(urlUpdate, formData).done(function (data) {
                             if (data.errors) {
                                 form_message.html(printErrorMessage(data));
                             }
@@ -327,7 +327,7 @@
                 let id = $(this).attr('id');
                 let urlEdit = "products/" + id + "/edit";
 
-                getProduct(urlEdit).done(function (data) {
+                getModel(urlEdit).done(function (data) {
 
                     let hidden_id = $("#hidden_id");
                     let input_name = $("#name");
@@ -341,13 +341,13 @@
                     let form_modal = $('#form_modal');
                     let urlImage = 'upload/images/products/';
 
-                    hidden_id.val(data.data.id);
-                    input_name.val(data.data.name);
-                    input_price.val(data.data.price);
-                    category_id.val(data.data.category_id);
-                    description.val(data.data.description);
+                    hidden_id.val(data.id);
+                    input_name.val(data.name);
+                    input_price.val(data.price);
+                    category_id.val(data.category_id);
+                    description.val(data.description);
 
-                    img_display.attr('src', urlImage + data.data.avatar);
+                    img_display.attr('src', urlImage + data.avatar);
                     modal_title.text('Sửa sản phẩm');
                     action.val('Cập nhật');
                     form_modal.modal('show');
@@ -372,7 +372,7 @@
                 }).then((result) => {
                     // if confirm ok
                     if (result.value) {
-                        deleteProduct(urlDelete).done(function (data) {
+                        deleteModel(urlDelete).done(function (data) {
                             if (data.success) {
                                 //show message
                                 Swal.fire(

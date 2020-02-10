@@ -168,7 +168,7 @@
                     if (action === "Thêm") {
                         let urlStore = "{{ route('categories.store') }}";
 
-                        storeCategory(urlStore, formData).done(function (data) {
+                        storeModel(urlStore, formData).done(function (data) {
                             if (data.errors) {
                                 let form_message = $("#form_message");
                                 form_message.html(printErrorMessage(data));
@@ -190,7 +190,7 @@
                         let urlUpdate = "{{ route('categories.update') }}";
                         let hidden_id = $("#hidden_id");
 
-                        updateCategory(urlUpdate, formData).done(function (data) {
+                        updateModel(urlUpdate, formData).done(function (data) {
                             if (data.errors) {
                                 let form_message = $("#form_message");
                                 form_message.html(printErrorMessage(data));
@@ -223,9 +223,9 @@
                 let action = $('#action');
                 let action_button = $('#action_button');
 
-                getCategory(urlEdit).done(function (data) {
-                    hidden_id.val(data.data.id);
-                    input_name.val(data.data.name);
+                getModel(urlEdit).done(function (data) {
+                    hidden_id.val(data.id);
+                    input_name.val(data.name);
 
                     modal_title.text('Sửa danh mục');
                     action.val('Cập nhật');
@@ -249,7 +249,7 @@
                     reverseButtons: true
                 }).then((result) => {
                     if (result.value) {
-                        deleteCategory(urlDelete).done(function (data) {
+                        deleteModel(urlDelete).done(function (data) {
                             if (data.success) {
                                 Swal.fire(
                                     'Đã xóa!',
