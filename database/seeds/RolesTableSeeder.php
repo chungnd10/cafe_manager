@@ -23,9 +23,6 @@ class RolesTableSeeder extends Seeder
             ],
             [
                 'name' => 'Nhân viên pha chế'
-            ],
-            [
-                'name' => 'Nhân viên thu ngân'
             ]
         ];
         DB::table('roles')->insert($roles);

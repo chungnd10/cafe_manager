@@ -47,7 +47,19 @@ class User extends Authenticatable
 
     public function hasPermission(Permission $permission)
     {
-        return !!optional(optional($this->role)->permissions)->contains($permission);
+        return !! optional(optional($this->role)->permissions)->contains($permission);
+    }
+
+    public function isAdmin()
+    {
+        $role_admin = config('constants.ROLE_SUPER_ADMIN');
+        return $this->role()->where('id', $role_admin)->first();
+    }
+
+    public function isBartender()
+    {
+        $role_bartender = config('constants.ROLE_BARTENDER');
+        return $this->role()->where('id', $role_bartender)->first();
     }
 
 }

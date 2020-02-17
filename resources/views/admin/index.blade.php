@@ -16,7 +16,7 @@
                 <!-- small box -->
                 <div class="small-box bg-aqua">
                     <div class="inner">
-                        <h3>150</h3>
+                        <h3>{{ $categories }}</h3>
 
                         <p>Danh mục</p>
                     </div>
@@ -30,7 +30,7 @@
                 <!-- small box -->
                 <div class="small-box bg-green">
                     <div class="inner">
-                        <h3>53<sup style="font-size: 20px">%</sup></h3>
+                        <h3>{{ $products }}</h3>
 
                         <p>Sản phẩm</p>
                     </div>
@@ -44,7 +44,7 @@
                 <!-- small box -->
                 <div class="small-box bg-yellow">
                     <div class="inner">
-                        <h3>44</h3>
+                        <h3>{{ $tables }}</h3>
 
                         <p>Bàn</p>
                     </div>
@@ -58,7 +58,7 @@
                 <!-- small box -->
                 <div class="small-box bg-red">
                     <div class="inner">
-                        <h3>65</h3>
+                        <h3>{{ $users }}</h3>
 
                         <p>Nhân viên</p>
                     </div>

@@ -43,14 +43,6 @@
                             </a>
                         </li>
                     @endcan
-                    @can('view-bills')
-                        <li>
-                            <a href="{{ route('bills.index') }}">
-                                <i class="fa fa-money"></i>
-                                Hóa đơn
-                            </a>
-                        </li>
-                    @endcan
                     @can('view-users')
                         <li>
                             <a href="{{ route('users.index') }}">
@@ -88,9 +80,6 @@
                             </li>
                             <!-- Menu Footer-->
                             <li class="user-footer">
-                                <div class="pull-left">
-                                    <a href="#" class="btn btn-default btn-flat">Profile</a>
-                                </div>
                                 <div class="pull-right">
                                     <a href="{{ route('logout') }}" class="btn btn-default btn-flat">Đăng xuất</a>
                                 </div>

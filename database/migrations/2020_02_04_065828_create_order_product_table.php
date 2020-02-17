@@ -27,6 +27,7 @@ class CreateOrderProductTable extends Migration
                 ->references('id')
                 ->on('products')
                 ->onDelete('CASCADE');
+            $table->integer('quantity');
 
             $table->timestamps();
         });

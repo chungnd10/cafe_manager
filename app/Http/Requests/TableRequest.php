@@ -2,11 +2,9 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\Exceptions\HttpResponseException;
 
-class TableRequest extends FormRequest
+class TableRequest extends Request
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -40,10 +38,5 @@ class TableRequest extends FormRequest
             'number_of_seats.required' => '*Số chỗ không được để trống.',
             'number_of_seats.digits_between' => '*Giá phải là số và từ 1-10 ký tự',
         ];
-    }
-
-    protected function failedValidation(Validator $validator)
-    {
-        throw new HttpResponseException(response()->json(['errors' => $validator->errors()->all()]));
     }
 }

@@ -2,12 +2,7 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Contracts\Validation\Validator;
-use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\Exceptions\HttpResponseException;
-use Illuminate\Validation\Rule;
-
-class ProductRequest extends FormRequest
+class ProductRequest extends Request
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -27,7 +22,7 @@ class ProductRequest extends FormRequest
     public function rules()
     {
         $validator = [
-            'name' => 'required|max:255|unique:products,name,'.$this->hidden_id,
+            'name' => 'required|max:255|unique:products,name,' . $this->hidden_id,
             'avatar' => 'nullable|mimes:jpeg,jpg,png|max:2048',
             'price' => 'required|digits_between:1,16',
             'category_id' => 'required|digits_between:1,10'
@@ -50,10 +45,5 @@ class ProductRequest extends FormRequest
             'category_id.required' => '*Danh mục không được để trống.',
             'category_id.digits_between' => '*Danh mục không hợp lệ',
         ];
-    }
-
-    protected function failedValidation(Validator $validator): void
-    {
-        throw new HttpResponseException(response()->json(['errors' => $validator->errors()->all()]));
     }
 }

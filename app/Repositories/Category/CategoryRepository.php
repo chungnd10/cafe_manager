@@ -17,5 +17,10 @@ class CategoryRepository extends EloquentRepository
         return Category::class;
     }
 
+    public function getAll()
+    {
+
+        return $this->_model->latest('id')->get();
+    }
 
 }

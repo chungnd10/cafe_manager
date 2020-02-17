@@ -11,18 +11,9 @@ class UserRepository extends EloquentRepository
         return User::class;
     }
 
-    public function datatables()
+    public function getAll()
     {
-        $users = User::join('roles', 'roles.id', '=', 'users.role_id')
-            ->select(
-                'users.id',
-                'full_name',
-                'avatar',
-                'phone_number',
-                'roles.name as role_name'
-            )
-            ->orderBy('id', 'desc')
-            ->get();
+        $users = $this->_model->with('role')->latest('id')->get();
         return $users;
     }
 }

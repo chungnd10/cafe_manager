@@ -21,9 +21,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $this->authorize('view');
-
-        $categories = $this->categoryRepository->orderBy('id', 'desc');
+        $categories = $this->categoryRepository->getAll();
 
         if (request()->ajax()) {
             return datatables()->of($categories)
@@ -42,8 +40,6 @@ class CategoryController extends Controller
      */
     public function store(CategoryRequest $request)
     {
-        $this->authorize('create');
-
         $form_data = [
             'name' => $request->input('name')
         ];
@@ -66,8 +62,6 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        $this->authorize('update');
-
         $category = $this->categoryRepository->find($id);
 
         return $category;
@@ -82,8 +76,6 @@ class CategoryController extends Controller
      */
     public function update(CategoryRequest $request)
     {
-        $this->authorize('update');
-
         $id = $request->input('hidden_id');
 
         $form_data = [
@@ -103,12 +95,10 @@ class CategoryController extends Controller
      * Remove the specified resource from storage.
      *
      * @param int $id
-     * @return \Illuminate\Http\Response
+     * @return mixed
      */
     public function destroy($id)
     {
-        $this->authorize('delete');
-
         $category = $this->categoryRepository->find($id);
         $category->delete();
 

@@ -15,7 +15,6 @@ class CreateOrdersTable extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('customer_name')->nullable();
 
             $table->unsignedInteger('table_id');
             $table->foreign('table_id')
@@ -29,10 +28,10 @@ class CreateOrdersTable extends Migration
                 ->on('users')
                 ->onDelete('CASCADE');
 
-            $table->unsignedInteger('order_status_id');
+            $table->unsignedInteger('order_status_id')->default(1);
             $table->foreign('order_status_id')
                 ->references('id')
-                ->on('orders')
+                ->on('order_status')
                 ->onDelete('CASCADE');
 
             $table->unsignedInteger('bartender_id')->nullable();

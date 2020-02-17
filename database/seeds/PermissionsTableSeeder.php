@@ -92,18 +92,6 @@ class PermissionsTableSeeder extends Seeder
                 'name' => 'delete-orders',
                 'title' => 'Xóa order'
             ],
-            [
-                'name' => 'view-bills',
-                'title' => 'Xem hóa đơn'
-            ],
-            [
-                'name' => 'create-bills',
-                'title' => 'Thêm hóa đơn'
-            ],
-            [
-                'name' => 'update-bills',
-                'title' => 'Cập nhật hóa đơn'
-            ]
         ];
         DB::table('permissions')->insert($permissions);
     }

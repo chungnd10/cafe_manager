@@ -3,25 +3,26 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UserRequest;
+use App\Repositories\Role\RoleRepository;
 use App\Repositories\User\UserRepository;
-use Illuminate\Http\Request;
 use App\Models\Role;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
     protected $userRepository;
+    protected $roleRepository;
 
-    public function __construct(UserRepository $userRepository)
+    public function __construct(UserRepository $userRepository, RoleRepository $roleRepository)
     {
         $this->userRepository = $userRepository;
+        $this->roleRepository = $roleRepository;
     }
 
     public function index()
     {
-        $this->authorize('view');
-        $users = $this->userRepository->datatables();
-        $roles = Role::all();
+        $users = $this->userRepository->getAll();
+        $roles = $this->roleRepository->getAll();
 
         if (request()->ajax()) {
             return datatables()->of($users)
@@ -35,8 +36,6 @@ class UserController extends Controller
 
     public function store(UserRequest $request)
     {
-        $this->authorize('create');
-
         $image = $request->file('avatar');
 
         $form_data = [
@@ -67,17 +66,13 @@ class UserController extends Controller
 
     public function edit($id)
     {
-        $this->authorize('update');
-
         $product = $this->userRepository->find($id);
-
         return $product;
     }
 
 
     public function update(UserRequest $request)
     {
-        $this->authorize('create');
         $id = $request->input('hidden_id');
         $image = $request->file('avatar');
         $password = $request->input('password');
@@ -112,8 +107,6 @@ class UserController extends Controller
 
     public function destroy($id)
     {
-        $this->authorize('delete');
-
         $data = $this->userRepository->find($id);
         $data->delete();
 
