@@ -2,12 +2,10 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Validation\Rule;
 
-class CategoryRequest extends FormRequest
+class CategoryRequest extends Request
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,12 +24,10 @@ class CategoryRequest extends FormRequest
      */
     public function rules()
     {
-        // for add category
         $validator = [
             "name" => 'required|max:255|unique:categories'
         ];
 
-        // for update category
         if ($this->hidden_id) {
             $validator['name'] = [
                 'required',
@@ -49,10 +45,5 @@ class CategoryRequest extends FormRequest
             "name.unique" => "*Tên đã tồn tại, hãy sử dụng tên khác.",
             "name.max" => "*Không được vượt quá 255 ký tự."
         ];
-    }
-
-    protected function failedValidation(Validator $validator): void
-    {
-        throw new HttpResponseException(response()->json(['errors' => $validator->errors()->all()]));
     }
 }

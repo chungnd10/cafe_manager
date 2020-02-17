@@ -16,19 +16,9 @@ class ProductRepository extends EloquentRepository
        return Product::class;
     }
 
-    public function datatables()
+    public function getAll()
     {
-        $products = Product::join('categories', 'categories.id', '=', 'products.category_id')
-            ->select(
-                'products.id',
-                'products.name as product_name',
-                'avatar',
-                'price',
-                'description',
-                'categories.name as category_name'
-            )
-            ->orderBy('products.id', 'desc')
-            ->get();
+        $products = $this->_model->with('category')->latest('id')->get();
 
         return $products;
 

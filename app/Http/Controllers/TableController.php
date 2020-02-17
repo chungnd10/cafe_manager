@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\TableRequest;
 use App\Repositories\Table\TableRepository;
-use Illuminate\Http\Request;
 
 class TableController extends Controller
 {
@@ -21,9 +20,7 @@ class TableController extends Controller
      */
     public function index()
     {
-        $this->authorize('view');
-
-        $tables = $this->tableRepository->datatables();
+        $tables = $this->tableRepository->getAll();
 
         if (request()->ajax()) {
             return datatables()->of($tables)
@@ -42,8 +39,6 @@ class TableController extends Controller
      */
     public function store(TableRequest $request)
     {
-        $this->authorize('create');
-
         $table_status_id = config('constants.TABLE_STATUS_EMPTY');
         $form_data = [
             'name' => $request->input('name'),
@@ -69,10 +64,7 @@ class TableController extends Controller
      */
     public function edit($id)
     {
-        $this->authorize('update');
-
         $table = $this->tableRepository->find($id);
-
         return $table;
     }
 
@@ -85,8 +77,6 @@ class TableController extends Controller
      */
     public function update(TableRequest $request)
     {
-        $this->authorize('update');
-
         $id = $request->input('hidden_id');
 
         $form_data = [
@@ -111,8 +101,6 @@ class TableController extends Controller
      */
     public function destroy($id)
     {
-        $this->authorize('delete');
-
         $table = $this->tableRepository->find($id);
         $table->delete();
 

@@ -2,18 +2,27 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Repositories\User\UserRepository;
+use App\Repositories\Product\ProductRepository;
+use App\Repositories\Category\CategoryRepository;
+use App\Repositories\Table\TableRepository;
 
 class HomeController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('auth');
+    protected $userRepository;
+    protected $productRepository;
+    protected $categoryRepository;
+    protected $tableRepository;
+
+    public function __construct(UserRepository $userRepository,
+        ProductRepository $productRepository,
+        CategoryRepository $categoryRepository,
+        TableRepository $tableRepository
+    ) {
+        $this->userRepository = $userRepository;
+        $this->productRepository = $productRepository;
+        $this->categoryRepository = $categoryRepository;
+        $this->tableRepository = $tableRepository;
     }
 
     /**
@@ -23,6 +32,11 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('admin.index');
+        $categories = $this->categoryRepository->count();
+        $products = $this->productRepository->count();
+        $tables = $this->tableRepository->count();
+        $users = $this->userRepository->count();
+
+        return view('admin.index', compact('categories', 'products', 'tables', 'users'));
     }
 }

@@ -11,8 +11,7 @@ class ProductController extends Controller
     protected $productRepository;
     protected $categoryRepository;
 
-    public function __construct(
-        ProductRepository $productRepository,
+    public function __construct(ProductRepository $productRepository,
         CategoryRepository $categoryRepository
     ) {
         $this->productRepository = $productRepository;
@@ -26,15 +25,14 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $this->authorize('view');
-
-        $products = $this->productRepository->datatables();
+        $products = $this->productRepository->getAll();
         $categories = $this->categoryRepository->getAll();
         if (request()->ajax()) {
             return datatables()->of($products)
                 ->addColumn('action', 'admin.datatables.action')
                 ->make(true);
         }
+
         return view('admin.product.index', compact('categories'));
     }
 
@@ -46,10 +44,7 @@ class ProductController extends Controller
      */
     public function store(ProductRequest $request)
     {
-        $this->authorize('create');
-
         $image = $request->file('avatar');
-
         $form_data = [
             'name' => $request->input('name'),
             'price' => $request->input('price'),
@@ -80,10 +75,7 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
-        $this->authorize('update');
-
         $product = $this->productRepository->find($id);
-
         return $product;
     }
 
@@ -96,7 +88,6 @@ class ProductController extends Controller
      */
     public function update(ProductRequest $request)
     {
-        $this->authorize('create');
 
         $id = $request->input('hidden_id');
         $image = $request->file('avatar');
@@ -131,7 +122,6 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        $this->authorize('delete');
 
         $data = $this->productRepository->find($id);
         $data->delete();

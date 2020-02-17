@@ -12,10 +12,9 @@ class TableRepository extends EloquentRepository
         return Table::class;
     }
 
-    public function datatables()
+    public function getAll()
     {
-        $tables = Table::orderBy('id', 'desc')
-            ->get();
+        $tables = $this->_model->latest('id')->get();
         return $tables;
     }
 }

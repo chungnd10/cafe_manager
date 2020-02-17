@@ -51,16 +51,6 @@ class UsersTableSeeder extends Seeder
                 'birthday' => '1996-10-31',
                 'address' => 'Dịch Vọng, Cầu Giấy, Hà Nội',
                 'role_id' => 4
-            ],
-            [
-                'full_name' => 'Nguyễn Văn D',
-                'avatar' => 'avatar-default.jpg',
-                'email' => 'thungan@localhost.com',
-                'password' => bcrypt(12345678),
-                'phone_number' => '0363223614',
-                'birthday' => '1996-10-31',
-                'address' => 'Dịch Vọng, Cầu Giấy, Hà Nội',
-                'role_id' => 5
             ]
         ];
         DB::table('users')->insert($status);

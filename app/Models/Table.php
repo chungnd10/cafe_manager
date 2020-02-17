@@ -10,7 +10,6 @@ class Table extends Model
 
     protected $fillable = [
         'name',
-        'number_of_seats',
-        'table_status_id'
+        'number_of_seats'
     ];
 }

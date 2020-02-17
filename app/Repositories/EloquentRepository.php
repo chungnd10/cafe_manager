@@ -111,4 +111,9 @@ abstract class EloquentRepository
         return $this->_model->orderBy($column, $params)->get();
     }
 
+    public function count()
+    {
+        return $this->_model->count();
+    }
+
 }

@@ -13,6 +13,7 @@ class ProductsTableSeeder extends Seeder
     public function run()
     {
         $products = [];
+
         for ($i = 1; $i <= 30; $i++) {
             $item = [
                 'name' => 'Sản phẩm '. $i,

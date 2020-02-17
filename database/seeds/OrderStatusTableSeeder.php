@@ -13,7 +13,7 @@ class OrderStatusTableSeeder extends Seeder
     {
         $status = [
             [
-                'name' => 'Chưa hoàn thành'
+                'name' => 'Chưa xử lý'
             ],
             [
                 'name' => 'Đang xử lý'
